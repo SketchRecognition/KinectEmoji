@@ -61,6 +61,15 @@ namespace KinectEmoji
                 _faceReader = _faceSource.OpenReader();
                 _faceReader.FrameArrived += FaceReader_FrameArrived;
             }
+
+            //tmp
+            tmpLog.Text = "xxxxxx";
+            for (int i = 0; i < 100; ++i)
+            {
+                tmpLog.Text += "QQQQQQQQQQQQQQQQQQ\n";
+            }
+            
+            
         }
 
         void ColorReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)

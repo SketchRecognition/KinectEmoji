@@ -91,7 +91,7 @@ namespace KinectEmoji
                 _faceSource = new HighDefinitionFaceFrameSource(_sensor);
 
                 _faceReader = _faceSource.OpenReader();
-                _faceReader.FrameArrived += FaceReader_FrameArrived;
+                //_faceReader.FrameArrived += FaceReader_FrameArrived;
 
                 _faceModel = new FaceModel();
                 _faceAlignment = new FaceAlignment();

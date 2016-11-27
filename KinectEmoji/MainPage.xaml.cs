@@ -50,7 +50,23 @@ namespace KinectEmoji
                 _bodyReader.FrameArrived += BodyReader_FrameArrived;
 
                 // 2) Initialize the face source with the desired features
-                _faceSource = new FaceFrameSource(_sensor, 0, FaceFrameFeatures.BoundingBoxInColorSpace |
+
+                // specify the required face frame results
+                FaceFrameFeatures faceFrameFeatures =
+                    FaceFrameFeatures.BoundingBoxInColorSpace
+                    | FaceFrameFeatures.PointsInColorSpace
+                    | FaceFrameFeatures.RotationOrientation
+                    | FaceFrameFeatures.FaceEngagement
+                    | FaceFrameFeatures.Glasses
+                    | FaceFrameFeatures.Happy
+                    | FaceFrameFeatures.LeftEyeClosed
+                    | FaceFrameFeatures.RightEyeClosed
+                    | FaceFrameFeatures.LookingAway
+                    | FaceFrameFeatures.MouthMoved
+                    | FaceFrameFeatures.MouthOpen;
+
+                _faceSource = new FaceFrameSource(_sensor, 0, faceFrameFeatures);
+                /*_faceSource = new FaceFrameSource(_sensor, 0, FaceFrameFeatures.BoundingBoxInColorSpace |
                                                               FaceFrameFeatures.FaceEngagement |
                                                               FaceFrameFeatures.Glasses |
                                                               FaceFrameFeatures.Happy |
@@ -58,6 +74,7 @@ namespace KinectEmoji
                                                               FaceFrameFeatures.MouthOpen |
                                                               FaceFrameFeatures.PointsInColorSpace |
                                                               FaceFrameFeatures.RightEyeClosed);
+                */
                 _faceReader = _faceSource.OpenReader();
                 _faceReader.FrameArrived += FaceReader_FrameArrived;
             }

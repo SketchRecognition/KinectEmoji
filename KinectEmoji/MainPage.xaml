@@ -40,9 +40,13 @@
                     <TextBlock Name="tmpLog" Text="QQ" Foreground="Black" FontSize="100"/>
                     </ScrollViewer>
 
+                    
                     <Viewbox Grid.Row="0" Grid.Column="1">
+                        <Border BorderBrush="Red" BorderThickness="10">
                         <Canvas Name="canvasHD" Width="512" Height="424" />
+                        </Border>
                     </Viewbox>
+                    
                 </Grid>
         </Viewbox>
     </Grid>

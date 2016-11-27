@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 using Microsoft.Kinect.Face;
 using WindowsPreview.Kinect;
 
@@ -30,8 +32,15 @@ namespace KinectEmoji
         IList<Body> _bodies = null;
 
         // 1) Specify a face frame source and a face frame reader
-        FaceFrameSource _faceSource = null;
-        FaceFrameReader _faceReader = null;
+        FaceFrameSource _normalFaceSource = null;
+        FaceFrameReader _normalFaceReader = null;
+
+        // from HD
+        private HighDefinitionFaceFrameSource _faceSource = null;
+        private HighDefinitionFaceFrameReader _faceReader = null;
+        private FaceAlignment _faceAlignment = null;
+        private FaceModel _faceModel = null;
+        private List<Ellipse> _points = new List<Ellipse>();
 
         public MainPage()
         {
@@ -65,7 +74,7 @@ namespace KinectEmoji
                     | FaceFrameFeatures.MouthMoved
                     | FaceFrameFeatures.MouthOpen;
 
-                _faceSource = new FaceFrameSource(_sensor, 0, faceFrameFeatures);
+                _normalFaceSource = new FaceFrameSource(_sensor, 0, faceFrameFeatures);
                 /*_faceSource = new FaceFrameSource(_sensor, 0, FaceFrameFeatures.BoundingBoxInColorSpace |
                                                               FaceFrameFeatures.FaceEngagement |
                                                               FaceFrameFeatures.Glasses |
@@ -75,8 +84,17 @@ namespace KinectEmoji
                                                               FaceFrameFeatures.PointsInColorSpace |
                                                               FaceFrameFeatures.RightEyeClosed);
                 */
+                _normalFaceReader = _normalFaceSource.OpenReader();
+                _normalFaceReader.FrameArrived += NormalFaceReader_FrameArrived;
+
+                // from HD
+                _faceSource = new HighDefinitionFaceFrameSource(_sensor);
+
                 _faceReader = _faceSource.OpenReader();
                 _faceReader.FrameArrived += FaceReader_FrameArrived;
+
+                _faceModel = new FaceModel();
+                _faceAlignment = new FaceAlignment();
             }
 
             //tmp
@@ -110,11 +128,19 @@ namespace KinectEmoji
 
                     Body body = _bodies.Where(b => b.IsTracked).FirstOrDefault();
 
-                    if (!_faceSource.IsTrackingIdValid)
+                    if (!_normalFaceSource.IsTrackingIdValid)
                     {
                         if (body != null)
                         {
                             // 4) Assign a tracking ID to the face source
+                            _normalFaceSource.TrackingId = body.TrackingId;
+                        }
+                    }
+
+                    if (!_faceSource.IsTrackingIdValid)
+                    {
+                        if (body != null)
+                        {
                             _faceSource.TrackingId = body.TrackingId;
                         }
                     }
@@ -122,7 +148,7 @@ namespace KinectEmoji
             }
         }
 
-        void FaceReader_FrameArrived(object sender, FaceFrameArrivedEventArgs e)
+        void NormalFaceReader_FrameArrived(object sender, FaceFrameArrivedEventArgs e)
         {
             using (var frame = e.FrameReference.AcquireFrame())
             {
@@ -192,6 +218,61 @@ namespace KinectEmoji
             }
         }
 
+        private void FaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)
+        {
+            using (var frame = e.FrameReference.AcquireFrame())
+            {
+                if (frame != null && frame.IsFaceTracked)
+                {
+                    frame.GetAndRefreshFaceAlignmentResult(_faceAlignment);
+                    UpdateFacePoints();
+                }
+            }
+        }
+
+        private void UpdateFacePoints()
+        {
+            if (_faceModel == null) return;
+
+            var vertices = _faceModel.CalculateVerticesForAlignment(_faceAlignment);
+
+            if (vertices.Count > 0)
+            {
+                if (_points.Count == 0)
+                {
+                    for (int index = 0; index < vertices.Count; index++)
+                    {
+                        Ellipse ellipse = new Ellipse
+                        {
+                            Width = 2.0,
+                            Height = 2.0,
+                            Fill = new SolidColorBrush(Colors.Blue)
+                        };
+
+                        _points.Add(ellipse);
+                    }
+
+                    foreach (Ellipse ellipse in _points)
+                    {
+                        canvasHD.Children.Add(ellipse);
+                    }
+                }
+
+                for (int index = 0; index < vertices.Count; index++)
+                {
+                    CameraSpacePoint vertice = vertices[index];
+                    DepthSpacePoint point = _sensor.CoordinateMapper.MapCameraPointToDepthSpace(vertice);
+
+                    if (float.IsInfinity(point.X) || float.IsInfinity(point.Y)) return;
+
+                    Ellipse ellipse = _points[index];
+
+                    Canvas.SetLeft(ellipse, point.X);
+                    Canvas.SetTop(ellipse, point.Y);
+                }
+            }
+        }
+
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             if (_colorReader != null)
@@ -206,16 +287,24 @@ namespace KinectEmoji
                 _bodyReader = null;
             }
 
-            if (_faceReader != null)
+            if (_normalFaceReader != null)
             {
-                _faceReader.Dispose();
-                _faceReader = null;
+                _normalFaceReader.Dispose();
+                _normalFaceReader = null;
             }
 
-            if (_faceSource != null)
+            if (_normalFaceSource != null)
             {
-                _faceSource = null;
+                _normalFaceSource = null;
             }
+
+            if (_faceModel != null)
+            {
+                _faceModel.Dispose();
+                _faceModel = null;
+            }
+
+            GC.SuppressFinalize(this);
 
             if (_sensor != null)
             {

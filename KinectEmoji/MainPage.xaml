@@ -7,20 +7,48 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Unloaded="Page_Unloaded">
 
+    <Border BorderBrush="Black" BorderThickness="10">
     <Grid Background="White">
         <Viewbox>
-            <Grid Width="2920" Height="1080">
+            <Grid Width="2920" Height="2080">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1080" />
+                    <RowDefinition Height="500" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
+                    <ColumnDefinition Width="1000" />
                 </Grid.ColumnDefinitions>
-                <Image Name="camera" Grid.Column="0"/>
-                <Canvas Name="canvas" Grid.Column="0">
-                    <Ellipse Name="ellipseEyeLeft" Style="{StaticResource EyeStyle}" />
-                    <Ellipse Name="ellipseEyeRight" Style="{StaticResource EyeStyle}" />
-                    <Ellipse Name="ellipseNose" Style="{StaticResource NoseStyle}" />
-                    <Ellipse Name="ellipseMouth" Style="{StaticResource MouthStyle}" />
-                </Canvas>
-            </Grid>
+
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="0"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="1" Grid.Column="0"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="1"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="1" Grid.Column="1"/>
+
+
+                    <Grid Grid.Row="0" Grid.Column="0">
+                    <Image Name="camera"/>
+                    <Canvas Name="canvas">
+                        <Ellipse Name="ellipseEyeLeft" Style="{StaticResource EyeStyle}" />
+                        <Ellipse Name="ellipseEyeRight" Style="{StaticResource EyeStyle}" />
+                        <Ellipse Name="ellipseNose" Style="{StaticResource NoseStyle}" />
+                        <Ellipse Name="ellipseMouth" Style="{StaticResource MouthStyle}" />
+                    </Canvas>
+                    </Grid>
+
+                    <ScrollViewer Grid.Row="1" Grid.Column="0">
+                    <TextBlock Name="tmpLog" Text="QQ" Foreground="Black" FontSize="100"/>
+                    </ScrollViewer>
+
+                    
+                    <Viewbox Grid.Row="0" Grid.Column="1">
+                        <Border BorderBrush="Red" BorderThickness="10">
+                        <Canvas Name="canvasHD" Width="512" Height="424" />
+                        </Border>
+                    </Viewbox>
+                    
+                </Grid>
         </Viewbox>
     </Grid>
+    </Border>
 </Page>

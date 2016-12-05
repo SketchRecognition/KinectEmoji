@@ -43,7 +43,13 @@
                     
                     <Viewbox Grid.Row="0" Grid.Column="1">
                         <Border BorderBrush="Red" BorderThickness="10">
-                        <Canvas Name="canvasHD" Width="512" Height="424" />
+                        <Canvas Name="canvasHD" Width="512" Height="424">
+                                <Line
+                                    X1="10" Y1="10"
+                                    X2="50" Y2="50"
+                                    Stroke="Black"
+                                    StrokeThickness="4" />
+                            </Canvas>
                         </Border>
                     </Viewbox>
                     

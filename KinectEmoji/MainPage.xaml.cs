@@ -107,8 +107,23 @@ namespace KinectEmoji
             {
                 tmpLog.Text += "QQQQQQQQQQQQQQQQQQ\n";
             }
-            
-            
+
+            //tmp canvas
+            // Add a Line Element
+            var myLine = new Line();
+            // myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            myLine.Stroke = new SolidColorBrush(Colors.Blue);
+            //myLine.Stroke = 
+
+            myLine.X1 = 100;
+            myLine.X2 = 150;
+            myLine.Y1 = 100;
+            myLine.Y2 = 150;
+            myLine.HorizontalAlignment = HorizontalAlignment.Left;
+            myLine.VerticalAlignment = VerticalAlignment.Center;
+            myLine.StrokeThickness = 2;
+            canvasHD.Children.Add(myLine);
+
         }
 
         void ColorReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)

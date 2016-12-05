@@ -36,12 +36,16 @@ namespace KinectEmoji
         FaceFrameReader _normalFaceReader = null;
 
         // from HD
-        private HighDefinitionFaceFrameSource _faceSource = null;
-        private HighDefinitionFaceFrameReader _faceReader = null;
+        private HighDefinitionFaceFrameSource _hdFaceSource = null;
+        private HighDefinitionFaceFrameReader _hdFaceReader = null;
         private FaceAlignment _faceAlignment = null;
         private FaceModel _faceModel = null;
         private List<Ellipse> _points = new List<Ellipse>();
 
+        private int [] _target_points = {
+            0, 210, 469, 241, 1104, 843, 1117, 731, 1090, 346, 140, 222, 803, 758, 849, 91, 687, 19, 1072, 10, 8, 18, 14, 156, 783, 24, 151, 772, 28, 412, 933, 458, 674, 4, 1307, 1327
+        };
+        
         public MainPage()
         {
             this.InitializeComponent();
@@ -54,7 +58,7 @@ namespace KinectEmoji
                 _bodies = new Body[_sensor.BodyFrameSource.BodyCount];
 
                 _colorReader = _sensor.ColorFrameSource.OpenReader();
-                _colorReader.FrameArrived += ColorReader_FrameArrived;
+                //_colorReader.FrameArrived += ColorReader_FrameArrived;
                 _bodyReader = _sensor.BodyFrameSource.OpenReader();
                 _bodyReader.FrameArrived += BodyReader_FrameArrived;
 
@@ -85,13 +89,13 @@ namespace KinectEmoji
                                                               FaceFrameFeatures.RightEyeClosed);
                 */
                 _normalFaceReader = _normalFaceSource.OpenReader();
-                _normalFaceReader.FrameArrived += NormalFaceReader_FrameArrived;
+                //_normalFaceReader.FrameArrived += NormalFaceReader_FrameArrived;
 
                 // from HD
-                _faceSource = new HighDefinitionFaceFrameSource(_sensor);
+                _hdFaceSource = new HighDefinitionFaceFrameSource(_sensor);
 
-                _faceReader = _faceSource.OpenReader();
-                //_faceReader.FrameArrived += FaceReader_FrameArrived;
+                _hdFaceReader = _hdFaceSource.OpenReader();
+                _hdFaceReader.FrameArrived += HDFaceReader_FrameArrived;
 
                 _faceModel = new FaceModel();
                 _faceAlignment = new FaceAlignment();
@@ -137,11 +141,11 @@ namespace KinectEmoji
                         }
                     }
 
-                    if (!_faceSource.IsTrackingIdValid)
+                    if (!_hdFaceSource.IsTrackingIdValid)
                     {
                         if (body != null)
                         {
-                            _faceSource.TrackingId = body.TrackingId;
+                            _hdFaceSource.TrackingId = body.TrackingId;
                         }
                     }
                 }
@@ -218,7 +222,7 @@ namespace KinectEmoji
             }
         }
 
-        private void FaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)
+        private void HDFaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)
         {
             using (var frame = e.FrameReference.AcquireFrame())
             {
@@ -242,11 +246,20 @@ namespace KinectEmoji
                 {
                     for (int index = 0; index < vertices.Count; index++)
                     {
+                        var mycolor = Colors.Blue;
+                        if (index == 91 || index == 687 || index == 19 || index == 1072 || index == 10 || index == 8) {
+                            mycolor = Colors.Red;
+                        } else if (index == 210 || index == 469 || index == 241 || index == 1104) {
+                            mycolor = Colors.Green;
+                        } else if (index == 843 || index == 1117 || index == 731 || index == 1090) {
+                            mycolor = Colors.Purple;
+                        }
+
                         Ellipse ellipse = new Ellipse
                         {
-                            Width = 2.0,
-                            Height = 2.0,
-                            Fill = new SolidColorBrush(Colors.Blue)
+                            Width = 20.0,
+                            Height = 20.0,
+                            Fill = new SolidColorBrush(mycolor)
                         };
 
                         _points.Add(ellipse);
@@ -254,14 +267,19 @@ namespace KinectEmoji
 
                     foreach (Ellipse ellipse in _points)
                     {
-                        canvasHD.Children.Add(ellipse);
+                        canvas.Children.Add(ellipse);
+                        //canvasHD.Children.Add(ellipse);
+
                     }
                 }
 
-                for (int index = 0; index < vertices.Count; index++)
+                //for (int index = 0; index < vertices.Count; index++)
+                for (int i = 0; i < _target_points.Length; i++)
                 {
+                    var index = _target_points[i];
                     CameraSpacePoint vertice = vertices[index];
-                    DepthSpacePoint point = _sensor.CoordinateMapper.MapCameraPointToDepthSpace(vertice);
+                    //DepthSpacePoint d_point = _sensor.CoordinateMapper.MapCameraPointToDepthSpace(vertice);
+                    ColorSpacePoint point = _sensor.CoordinateMapper.MapCameraPointToColorSpace(vertice);
 
                     if (float.IsInfinity(point.X) || float.IsInfinity(point.Y)) return;
 

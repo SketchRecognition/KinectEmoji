@@ -37,7 +37,7 @@
                     </Grid>
 
                     <ScrollViewer Grid.Row="1" Grid.Column="0">
-                    <TextBlock Name="tmpLog" Text="QQ" Foreground="Black" FontSize="100"/>
+                    <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="100"/>
                     </ScrollViewer>
 
                     

@@ -6,6 +6,25 @@ using System.Threading.Tasks;
 
 namespace KinectEmoji
 {
+    class MyPoint
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double z { get; set; }
+
+        public MyPoint(double ix, double iy, double iz)
+        {
+            x = ix;
+            y = iy;
+            z = iz;
+        }
+
+        public override String ToString()
+        {
+            return String.Format("({0:F2}, {1:F2}, {2:F2})", x, y, z);
+        }
+    }
+
     class Face
     {
         public const int EyeLeft = 0;
@@ -47,9 +66,28 @@ namespace KinectEmoji
 
         public static readonly int [] MouthPoints = {MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop};
 
+        public MyPoint pMouthLeftcorner = new MyPoint(0,0,0);
+
+
         public static bool isMouthPoints(int i)
         {
             return Array.Exists(MouthPoints, element => element == i);
+        }
+
+        public void addData(int i, float x, float y, float z)
+        {
+            if (i == MouthLeftcorner)
+            {
+                pMouthLeftcorner.x = x;
+                pMouthLeftcorner.y = y;
+                pMouthLeftcorner.z = z;
+            }
+            //var p = new MyPoint(x, y, z);
+        }
+
+        public String dump_str()
+        {
+            return String.Format("MouthLeftcorner {0}", pMouthLeftcorner.ToString());
         }
     }
 }

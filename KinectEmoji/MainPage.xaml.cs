@@ -65,6 +65,7 @@ namespace KinectEmoji
                 // 2) Initialize the face source with the desired features
 
                 // specify the required face frame results
+                /*
                 FaceFrameFeatures faceFrameFeatures =
                     FaceFrameFeatures.BoundingBoxInColorSpace
                     | FaceFrameFeatures.PointsInColorSpace
@@ -78,9 +79,10 @@ namespace KinectEmoji
                     | FaceFrameFeatures.MouthMoved
                     | FaceFrameFeatures.MouthOpen;
 
-                //_normalFaceSource = new FaceFrameSource(_sensor, 0, faceFrameFeatures);
-                //_normalFaceReader = _normalFaceSource.OpenReader();
-                //_normalFaceReader.FrameArrived += NormalFaceReader_FrameArrived;
+                _normalFaceSource = new FaceFrameSource(_sensor, 0, faceFrameFeatures);
+                _normalFaceReader = _normalFaceSource.OpenReader();
+                _normalFaceReader.FrameArrived += NormalFaceReader_FrameArrived;
+                */
 
                 // from HD
                 _hdFaceSource = new HighDefinitionFaceFrameSource(_sensor);
@@ -115,7 +117,8 @@ namespace KinectEmoji
         private void write_log(String s)
         {
             sysLog.Text += '\n';
-            sysLog.Text += s;      
+            sysLog.Text += s;
+            //sysLogViewer.ScrollToBottom();     
         }
 
         void ColorReader_FrameArrived(object sender, ColorFrameArrivedEventArgs e)
@@ -288,6 +291,8 @@ namespace KinectEmoji
                     }
                 }
 
+                var face = new Face();
+
                 for (int index = 0; index < vertices.Count; index++)
                 //for (int i = 0; i < _target_points.Length; i++)
                 {
@@ -302,7 +307,12 @@ namespace KinectEmoji
 
                     Canvas.SetLeft(ellipse, point.X);
                     Canvas.SetTop(ellipse, point.Y);
+
+                    face.addData(index, vertice.X, vertice.Y, vertice.Z);
                 }
+
+                //write_log(face.dump_str());
+                info.Text = face.dump_str();
             }
         }
 

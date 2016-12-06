@@ -10,14 +10,14 @@
     <Border BorderBrush="Black" BorderThickness="10">
     <Grid Background="White">
         <Viewbox>
-            <Grid Width="2920" Height="2080">
+            <Grid Width="3920" Height="2080">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1080" />
-                    <RowDefinition Height="500" />
+                    <RowDefinition Height="800" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
-                    <ColumnDefinition Width="1000" />
+                    <ColumnDefinition Width="2000" />
                 </Grid.ColumnDefinitions>
 
                 <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="0"/>
@@ -36,7 +36,7 @@
                     </Canvas>
                     </Grid>
 
-                    <ScrollViewer Grid.Row="1" Grid.Column="0">
+                    <ScrollViewer Name="sysLogViewer" Grid.Row="1" Grid.Column="0">
                     <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="100"/>
                     </ScrollViewer>
 
@@ -52,7 +52,11 @@
                             </Canvas>
                         </Border>
                     </Viewbox>
-                    
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <TextBlock Name="info" Text="qq" Foreground="Black" FontSize="50"/>
+                    </Grid>
+
                 </Grid>
         </Viewbox>
     </Grid>

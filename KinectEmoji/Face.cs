@@ -102,15 +102,21 @@ namespace KinectEmoji
         public const int LowerjawRightend = 1327;
 
         public static readonly int [] MouthPoints = {MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop};
+        public static readonly int[] LeftEyePoints = { LefteyeInnercorner, LefteyeOutercorner, LefteyeMidtop, LefteyeMidbottom };
+        public static readonly int[] RightEyePoints = { RighteyeInnercorner, RighteyeOutercorner, RighteyeMidtop, RighteyeMidbottom };   
         public static readonly int[] TargetPoints = {
-            MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop
+            MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop,
+            LefteyeInnercorner, LefteyeOutercorner, LefteyeMidtop, LefteyeMidbottom,
+            RighteyeInnercorner, RighteyeOutercorner, RighteyeMidtop, RighteyeMidbottom
         };
         public static readonly string[] TargetPointsName = {
-            "MouthLeftcorner", "MouthRightcorner", "MouthUpperlipMidbottom", "MouthLowerlipMidtop"
+            "MouthLeftcorner", "MouthRightcorner", "MouthUpperlipMidbottom", "MouthLowerlipMidtop",
+            "LefteyeInnercorner", "LefteyeOutercorner", "LefteyeMidtop", "LefteyeMidbottom",
+            "RighteyeInnercorner", "RighteyeOutercorner", "RighteyeMidtop", "RighteyeMidbottom"
         };
         public static Dictionary<int, int> IndexToPos = null;
 
-        public MyPoint pMouthLeftcorner = new MyPoint();
+        //public MyPoint pMouthLeftcorner = new MyPoint();
 
         public List<MyPoint> _trackedPoints = new List<MyPoint>();
 
@@ -131,12 +137,11 @@ namespace KinectEmoji
             }
         }
 
-        public static bool isMouthPoints(int i)
-        {
-            return Array.Exists(MouthPoints, element => element == i);
-        }
+        public static bool isMouthPoint(int i) { return Array.Exists(MouthPoints, element => element == i); }
+        public static bool isLeftEyePoint(int i) { return Array.Exists(LeftEyePoints, element => element == i); }
+        public static bool isRightEyePoint(int i) { return Array.Exists(RightEyePoints, element => element == i); }
 
-        public void addData(int i, float x, float y, float z)
+        public void addData(int i, double x, double y, double z)
         {
             int value;
             if (IndexToPos.TryGetValue(i, out value))

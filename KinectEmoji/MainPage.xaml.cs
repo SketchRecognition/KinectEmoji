@@ -265,14 +265,18 @@ namespace KinectEmoji
                         var myheight = 2.0;
 
                         //if (index == 91 || index == 687 || index == 19 || index == 1072 || index == 10 || index == 8) {
-                        if (Face.isMouthPoints(index)) {
+                        if (Face.isMouthPoint(index)) {
                             mycolor = Colors.Red;
                             mywidth = 20.0;
                             myheight = 20.0;
-                        } else if (index == 210 || index == 469 || index == 241 || index == 1104) {
+                        } else if (Face.isLeftEyePoint(index)) {
                             mycolor = Colors.Green;
-                        } else if (index == 843 || index == 1117 || index == 731 || index == 1090) {
+                            mywidth = 20.0;
+                            myheight = 20.0;
+                        } else if (Face.isRightEyePoint(index)) {
                             mycolor = Colors.Purple;
+                            mywidth = 20.0;
+                            myheight = 20.0;
                         }
 
                         Ellipse ellipse = new Ellipse

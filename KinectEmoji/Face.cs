@@ -12,16 +12,37 @@ namespace KinectEmoji
         public double y { get; set; }
         public double z { get; set; }
 
+        public MyPoint()
+        {
+            x = 0; y = 0; z = 0;
+        }
+
         public MyPoint(double ix, double iy, double iz)
         {
-            x = ix;
-            y = iy;
-            z = iz;
+            x = ix; y = iy; z = iz;
         }
 
         public override String ToString()
         {
             return String.Format("({0:F2}, {1:F2}, {2:F2})", x, y, z);
+        }
+    }
+
+    class FacePoint
+    {
+        public int index { get; }
+        public String name { get; }
+        public MyPoint point = new MyPoint();
+
+        public FacePoint(int i, String n)
+        {
+            index = i;
+            name = n;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}({1}): {2}", name, index, point.ToString());
         }
     }
 
@@ -66,8 +87,15 @@ namespace KinectEmoji
 
         public static readonly int [] MouthPoints = {MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop};
 
-        public MyPoint pMouthLeftcorner = new MyPoint(0,0,0);
+        public MyPoint pMouthLeftcorner = new MyPoint();
 
+        public List<FacePoint> _trackedPoints = new List<FacePoint>();
+
+        public Face()
+        {
+            _trackedPoints.Add(new FacePoint(MouthLeftcorner, "MouthLeftcorner"));
+            _trackedPoints.Add(new FacePoint(MouthRightcorner, "MouthRightcorner"));
+        }
 
         public static bool isMouthPoints(int i)
         {
@@ -76,18 +104,35 @@ namespace KinectEmoji
 
         public void addData(int i, float x, float y, float z)
         {
+            foreach(var p in _trackedPoints)
+            {
+                if (p.index == i)
+                {
+                    p.point.x = x;
+                    p.point.y = y;
+                    p.point.z = z;
+                }
+            }
+            /*
             if (i == MouthLeftcorner)
             {
                 pMouthLeftcorner.x = x;
                 pMouthLeftcorner.y = y;
                 pMouthLeftcorner.z = z;
             }
+            */
             //var p = new MyPoint(x, y, z);
         }
 
         public String dump_str()
         {
-            return String.Format("MouthLeftcorner {0}", pMouthLeftcorner.ToString());
+            String tmp = "";
+            foreach(var p in _trackedPoints)
+            {
+                tmp += String.Format("{0}\n", p.ToString());
+            }
+            //return String.Format("MouthLeftcorner: {0}", pMouthLeftcorner.ToString());
+            return tmp;
         }
     }
 }

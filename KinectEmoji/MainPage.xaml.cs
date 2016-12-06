@@ -113,6 +113,7 @@ namespace KinectEmoji
             // tmp
             write_log(Face.MouthUpperlipMidbottom.ToString());
             var face = new Face();
+            write_log(face.dump_str());
         }
 
         private void write_log(String s)

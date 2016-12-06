@@ -12,12 +12,12 @@ namespace KinectEmoji
         public double y { get; set; }
         public double z { get; set; }
 
-        public MyPoint()
+        public MyPoint(double x = 0, double y = 0, double z = 0)
         {
-            x = 0; y = 0; z = 0;
+            setValue(x, y, z);
         }
 
-        public MyPoint(double ix, double iy, double iz)
+        public void setValue(double ix, double iy, double iz)
         {
             x = ix; y = iy; z = iz;
         }
@@ -25,6 +25,22 @@ namespace KinectEmoji
         public override String ToString()
         {
             return String.Format("({0:F2}, {1:F2}, {2:F2})", x, y, z);
+        }
+    }
+
+    class MyVector
+    {
+        public MyPoint start { get; }
+        public MyPoint end { get; }
+
+        public MyVector(MyPoint s, MyPoint e)
+        {
+            start = s; end = e;
+        }
+
+        public override String ToString()
+        {
+            return String.Format("({0} -> {1})", start.ToString(), end.ToString());
         }
     }
 
@@ -86,15 +102,33 @@ namespace KinectEmoji
         public const int LowerjawRightend = 1327;
 
         public static readonly int [] MouthPoints = {MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop};
+        public static readonly int[] TargetPoints = {
+            MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop
+        };
+        public static readonly string[] TargetPointsName = {
+            "MouthLeftcorner", "MouthRightcorner", "MouthUpperlipMidbottom", "MouthLowerlipMidtop"
+        };
+        public static Dictionary<int, int> IndexToPos = null;
 
         public MyPoint pMouthLeftcorner = new MyPoint();
 
-        public List<FacePoint> _trackedPoints = new List<FacePoint>();
+        public List<MyPoint> _trackedPoints = new List<MyPoint>();
+
+        static Face()
+        {
+            IndexToPos = new Dictionary<int, int>();
+            for (int i = 0; i < TargetPoints.Length; ++i)
+            {
+                IndexToPos.Add(TargetPoints[i], i);
+            } 
+        }
 
         public Face()
         {
-            _trackedPoints.Add(new FacePoint(MouthLeftcorner, "MouthLeftcorner"));
-            _trackedPoints.Add(new FacePoint(MouthRightcorner, "MouthRightcorner"));
+            for (int i = 0; i < TargetPoints.Length; ++i)
+            {
+                _trackedPoints.Add(new MyPoint());
+            }
         }
 
         public static bool isMouthPoints(int i)
@@ -104,34 +138,27 @@ namespace KinectEmoji
 
         public void addData(int i, float x, float y, float z)
         {
-            foreach(var p in _trackedPoints)
+            int value;
+            if (IndexToPos.TryGetValue(i, out value))
             {
-                if (p.index == i)
-                {
-                    p.point.x = x;
-                    p.point.y = y;
-                    p.point.z = z;
-                }
+                _trackedPoints[value].setValue(x, y, z);
             }
-            /*
-            if (i == MouthLeftcorner)
-            {
-                pMouthLeftcorner.x = x;
-                pMouthLeftcorner.y = y;
-                pMouthLeftcorner.z = z;
-            }
-            */
-            //var p = new MyPoint(x, y, z);
         }
 
         public String dump_str()
         {
+            
             String tmp = "";
-            foreach(var p in _trackedPoints)
+            
+            for (int i = 0; i < TargetPoints.Length; ++i)
             {
-                tmp += String.Format("{0}\n", p.ToString());
+                tmp += String.Format("{0}({1}): {2}\n", TargetPointsName[i], TargetPoints[i], _trackedPoints[i].ToString());
             }
             //return String.Format("MouthLeftcorner: {0}", pMouthLeftcorner.ToString());
+            /*
+            MyVector v = new MyVector(_trackedPoints[0].point, _trackedPoints[1].point);
+            tmp += String.Format("{0}\n", v.ToString());
+            */
             return tmp;
         }
     }

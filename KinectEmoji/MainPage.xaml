@@ -13,7 +13,7 @@
             <Grid Width="3920" Height="2080">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1080" />
-                    <RowDefinition Height="800" />
+                    <RowDefinition Height="1000" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
@@ -37,7 +37,7 @@
                     </Grid>
 
                     <ScrollViewer Name="sysLogViewer" Grid.Row="1" Grid.Column="0">
-                    <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="100"/>
+                    <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="70"/>
                     </ScrollViewer>
 
                     
@@ -54,7 +54,13 @@
                     </Viewbox>
 
                     <Grid Grid.Row="1" Grid.Column="1">
-                        <TextBlock Name="info" Text="qq" Foreground="Black" FontSize="50"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="500" />
+                            <RowDefinition Height="500" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Name="info" Text="qq" Foreground="Black" FontSize="50"/>
+                        <TextBlock Grid.Row="1" Name="infoNormal" Text="ooo" Foreground="Black" FontSize="50"/>
                     </Grid>
 
                 </Grid>

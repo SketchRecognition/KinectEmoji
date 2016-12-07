@@ -22,6 +22,15 @@ namespace KinectEmoji
             x = ix; y = iy; z = iz;
         }
 
+        public double distance(MyPoint rhs)
+        {
+            return Math.Sqrt(
+                (x - rhs.x) * (x - rhs.x) +
+                (y - rhs.y) * (y - rhs.y) +
+                (z - rhs.z) * (z - rhs.z)
+            );
+        }
+
         public override String ToString()
         {
             return String.Format("({0:F2}, {1:F2}, {2:F2})", x, y, z);
@@ -105,14 +114,14 @@ namespace KinectEmoji
         public static readonly int[] LeftEyePoints = { LefteyeInnercorner, LefteyeOutercorner, LefteyeMidtop, LefteyeMidbottom };
         public static readonly int[] RightEyePoints = { RighteyeInnercorner, RighteyeOutercorner, RighteyeMidtop, RighteyeMidbottom };   
         public static readonly int[] TargetPoints = {
-            MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop,
-            LefteyeInnercorner, LefteyeOutercorner, LefteyeMidtop, LefteyeMidbottom,
-            RighteyeInnercorner, RighteyeOutercorner, RighteyeMidtop, RighteyeMidbottom
+            MouthLeftcorner, MouthRightcorner, MouthUpperlipMidbottom, MouthLowerlipMidtop
+            //LefteyeInnercorner, LefteyeOutercorner, LefteyeMidtop, LefteyeMidbottom,
+            //RighteyeInnercorner, RighteyeOutercorner, RighteyeMidtop, RighteyeMidbottom
         };
         public static readonly string[] TargetPointsName = {
-            "MouthLeftcorner", "MouthRightcorner", "MouthUpperlipMidbottom", "MouthLowerlipMidtop",
-            "LefteyeInnercorner", "LefteyeOutercorner", "LefteyeMidtop", "LefteyeMidbottom",
-            "RighteyeInnercorner", "RighteyeOutercorner", "RighteyeMidtop", "RighteyeMidbottom"
+            "MouthLeftcorner", "MouthRightcorner", "MouthUpperlipMidbottom", "MouthLowerlipMidtop"
+            //"LefteyeInnercorner", "LefteyeOutercorner", "LefteyeMidtop", "LefteyeMidbottom",
+            //"RighteyeInnercorner", "RighteyeOutercorner", "RighteyeMidtop", "RighteyeMidbottom"
         };
         public static Dictionary<int, int> IndexToPos = null;
 
@@ -150,6 +159,17 @@ namespace KinectEmoji
             }
         }
 
+        public MyPoint getPoint(int index)
+        {
+            return _trackedPoints[IndexToPos[index]];
+        }
+
+        public double unitLength()
+        {
+            //return MyVector(getPoint(LefteyeInnercorner), getPoint(RighteyeInnercorner));
+            return 0;
+        }
+
         public String dump_str()
         {
             
@@ -164,7 +184,28 @@ namespace KinectEmoji
             MyVector v = new MyVector(_trackedPoints[0].point, _trackedPoints[1].point);
             tmp += String.Format("{0}\n", v.ToString());
             */
+            //tmp += String.Format("classify_leftEyeClose: {0}\n", classify_leftEyeClose());
+            //tmp += String.Format("feature_leftEyeRatio(): {0}\n", feature_leftEyeRatio());
+            //tmp += String.Format("d1: {0}\n", getPoint(LefteyeMidtop).distance(getPoint(LefteyeMidbottom)));
+            //tmp += String.Format("d2: {0}\n", getPoint(LefteyeOutercorner).distance(getPoint(LefteyeInnercorner)));
+
+
+
+
             return tmp;
+        }
+
+        public double feature_leftEyeRatio()
+        {
+            double result = getPoint(LefteyeMidtop).distance(getPoint(LefteyeMidbottom))
+                / getPoint(LefteyeOutercorner).distance(getPoint(LefteyeInnercorner));
+            return result;
+        }
+
+        public bool classify_leftEyeClose()
+        {
+            double threshold = 0.2;
+            return feature_leftEyeRatio() < threshold;
         }
     }
 }

@@ -42,6 +42,8 @@ namespace KinectEmoji
         private FaceModel _faceModel = null;
         private List<Ellipse> _points = new List<Ellipse>();
 
+        private const double FaceRotationIncrementInDegrees = 5.0;
+
         private int [] _target_points = {
             0, 210, 469, 241, 1104, 843, 1117, 731, 1090, 346, 140, 222, 803, 758, 849, 91, 687, 19, 1072, 10, 8, 18, 14, 156, 783, 24, 151, 772, 28, 412, 933, 458, 674, 4, 1307, 1327
         };
@@ -65,7 +67,7 @@ namespace KinectEmoji
                 // 2) Initialize the face source with the desired features
 
                 // specify the required face frame results
-                /*
+                
                 FaceFrameFeatures faceFrameFeatures =
                     FaceFrameFeatures.BoundingBoxInColorSpace
                     | FaceFrameFeatures.PointsInColorSpace
@@ -82,7 +84,7 @@ namespace KinectEmoji
                 _normalFaceSource = new FaceFrameSource(_sensor, 0, faceFrameFeatures);
                 _normalFaceReader = _normalFaceSource.OpenReader();
                 _normalFaceReader.FrameArrived += NormalFaceReader_FrameArrived;
-                */
+                
 
                 // from HD
                 _hdFaceSource = new HighDefinitionFaceFrameSource(_sensor);
@@ -144,7 +146,7 @@ namespace KinectEmoji
 
                     Body body = _bodies.Where(b => b.IsTracked).FirstOrDefault();
 
-                    /*
+                    
                     if (!_normalFaceSource.IsTrackingIdValid)
                     {
                         if (body != null)
@@ -153,7 +155,7 @@ namespace KinectEmoji
                             _normalFaceSource.TrackingId = body.TrackingId;
                         }
                     }
-                    */
+                    
 
                     if (!_hdFaceSource.IsTrackingIdValid)
                     {
@@ -197,21 +199,23 @@ namespace KinectEmoji
                         Canvas.SetLeft(ellipseEyeRight, eyeRight.X - ellipseEyeRight.Width / 2.0);
                         Canvas.SetTop(ellipseEyeRight, eyeRight.Y - ellipseEyeRight.Height / 2.0);
 
-                        Canvas.SetLeft(ellipseNose, nose.X - ellipseNose.Width / 2.0);
-                        Canvas.SetTop(ellipseNose, nose.Y - ellipseNose.Height / 2.0);
+                        //Canvas.SetLeft(ellipseNose, nose.X - ellipseNose.Width / 2.0);
+                        //Canvas.SetTop(ellipseNose, nose.Y - ellipseNose.Height / 2.0);
 
-                        Canvas.SetLeft(ellipseMouth, ((mouthRight.X + mouthLeft.X) / 2.0) - ellipseMouth.Width / 2.0);
-                        Canvas.SetTop(ellipseMouth, ((mouthRight.Y + mouthLeft.Y) / 2.0) - ellipseMouth.Height / 2.0);
-                        ellipseMouth.Width = Math.Abs(mouthRight.X - mouthLeft.X);
+                        //Canvas.SetLeft(ellipseMouth, ((mouthRight.X + mouthLeft.X) / 2.0) - ellipseMouth.Width / 2.0);
+                        //Canvas.SetTop(ellipseMouth, ((mouthRight.Y + mouthLeft.Y) / 2.0) - ellipseMouth.Height / 2.0);
+                        //ellipseMouth.Width = Math.Abs(mouthRight.X - mouthLeft.X);
 
                         // Display or hide the ellipses
                         if (eyeLeftClosed == DetectionResult.Yes || eyeLeftClosed == DetectionResult.Maybe)
                         {
                             ellipseEyeLeft.Visibility = Visibility.Collapsed;
+                            infoNormal.Text = "close";
                         }
                         else
                         {
                             ellipseEyeLeft.Visibility = Visibility.Visible;
+                            infoNormal.Text = "open";
                         }
 
                         if (eyeRightClosed == DetectionResult.Yes || eyeRightClosed == DetectionResult.Maybe)
@@ -223,6 +227,7 @@ namespace KinectEmoji
                             ellipseEyeRight.Visibility = Visibility.Visible;
                         }
 
+                        /*
                         if (mouthOpen == DetectionResult.Yes || mouthOpen == DetectionResult.Maybe)
                         {
                             ellipseMouth.Height = 50.0;
@@ -231,9 +236,40 @@ namespace KinectEmoji
                         {
                             ellipseMouth.Height = 20.0;
                         }
+                        */
+                        infoNormal.Text += "\n";
+                        //if (result.FaceRotationQuaternion != null)
+                        if (true)
+                        {
+                            int pitch, yaw, roll;
+                            ExtractFaceRotationInDegrees(result.FaceRotationQuaternion, out pitch, out yaw, out roll);
+                            infoNormal.Text += "FaceYaw : " + yaw + "\n" +
+                                        "FacePitch : " + pitch + "\n" +
+                                        "FacenRoll : " + roll + "\n";
+                        }
                     }
                 }
             }
+        }
+
+        private static void ExtractFaceRotationInDegrees(Vector4 rotQuaternion, out int pitch, out int yaw, out int roll)
+        {
+            double x = rotQuaternion.X;
+            double y = rotQuaternion.Y;
+            double z = rotQuaternion.Z;
+            double w = rotQuaternion.W;
+
+            // convert face rotation quaternion to Euler angles in degrees
+            double yawD, pitchD, rollD;
+            pitchD = Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / Math.PI * 180.0;
+            yawD = Math.Asin(2 * ((w * y) - (x * z))) / Math.PI * 180.0;
+            rollD = Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / Math.PI * 180.0;
+
+            // clamp the values to a multiple of the specified increment to control the refresh rate
+            double increment = FaceRotationIncrementInDegrees;
+            pitch = (int)(Math.Floor((pitchD + ((increment / 2.0) * (pitchD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            yaw = (int)(Math.Floor((yawD + ((increment / 2.0) * (yawD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            roll = (int)(Math.Floor((rollD + ((increment / 2.0) * (rollD > 0 ? 1.0 : -1.0))) / increment) * increment);
         }
 
         private void HDFaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)
@@ -265,11 +301,24 @@ namespace KinectEmoji
                         var myheight = 2.0;
 
                         //if (index == 91 || index == 687 || index == 19 || index == 1072 || index == 10 || index == 8) {
-                        if (Face.isMouthPoint(index)) {
+                        if (Face.isMouthPoint(index))
+                        {
                             mycolor = Colors.Red;
                             mywidth = 20.0;
                             myheight = 20.0;
-                        } else if (Face.isLeftEyePoint(index)) {
+                        }
+                        else if (index == Face.LeftcheekCenter)
+                        {
+                            mycolor = Colors.Green;
+                            mywidth = 20.0;
+                            myheight = 20.0;
+                        } else if (index == Face.NoseBottom)
+                        {
+                            mycolor = Colors.Black;
+                            mywidth = 20.0;
+                            myheight = 20.0;
+                        }
+                            /*else if (Face.isLeftEyePoint(index)) {
                             mycolor = Colors.Green;
                             mywidth = 20.0;
                             myheight = 20.0;
@@ -277,7 +326,7 @@ namespace KinectEmoji
                             mycolor = Colors.Purple;
                             mywidth = 20.0;
                             myheight = 20.0;
-                        }
+                        }*/
 
                         Ellipse ellipse = new Ellipse
                         {

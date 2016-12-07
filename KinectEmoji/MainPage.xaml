@@ -10,10 +10,11 @@
     <Border BorderBrush="Black" BorderThickness="10">
     <Grid Background="White">
         <Viewbox>
-            <Grid Width="3920" Height="2080">
+            <Grid Width="3920" Height="2180">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1080" />
                     <RowDefinition Height="1000" />
+                    <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
@@ -56,7 +57,7 @@
                         </Viewbox>
                     </Grid>
 
-                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid Grid.Row="1" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="500" />
                             <RowDefinition Height="500" />
@@ -64,6 +65,9 @@
 
                         <TextBlock Grid.Row="0" Name="info" Text="qq" Foreground="Black" FontSize="50"/>
                         <TextBlock Grid.Row="1" Name="infoNormal" Text="ooo" Foreground="Black" FontSize="50"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <TextBlock Grid.Row="0" Name="tmp" Text="tmp" Foreground="Black" FontSize="50"/>
                     </Grid>
 
                 </Grid>

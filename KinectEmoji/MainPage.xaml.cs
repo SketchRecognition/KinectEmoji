@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,7 +17,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 using Microsoft.Kinect.Face;
 using WindowsPreview.Kinect;
-using Windows.UI.Xaml.Media.Imaging;
+using System.Threading;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -118,7 +120,28 @@ namespace KinectEmoji
             var face = new FaceHD();
             write_log(face.dump_str());
 
-            emoji.Source = new BitmapImage(new Uri("ms-appx:///Images/happy.jpg"));
+            emoji.Source = Emoji.shock;
+
+            var autoEvent = new AutoResetEvent(false);
+
+            tmp.Text = "tmp";
+            var stateTimer = new Timer(tmp_callback,
+                                   autoEvent, 1000, 250);
+        }
+
+        int tmp_count = 0;
+        public void tmp_callback(Object stateInfo)
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+        () =>
+        {
+        // Your UI update code goes here!
+        tmp.Text = String.Format("{0}", tmp_count++);
+        }
+        );
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            
         }
 
         private void write_log(String s)
@@ -244,7 +267,7 @@ namespace KinectEmoji
                         //if (result.FaceRotationQuaternion != null)
                         if (true)
                         {
-                            int pitch, yaw, roll;
+                            double pitch, yaw, roll;
                             ExtractFaceRotationInDegrees(result.FaceRotationQuaternion, out pitch, out yaw, out roll);
                             infoNormal.Text += "FaceYaw : " + yaw + "\n" +
                                         "FacePitch : " + pitch + "\n" +
@@ -255,7 +278,7 @@ namespace KinectEmoji
             }
         }
 
-        private static void ExtractFaceRotationInDegrees(Vector4 rotQuaternion, out int pitch, out int yaw, out int roll)
+        private static void ExtractFaceRotationInDegrees(Vector4 rotQuaternion, out double pitch, out double yaw, out double roll)
         {
             double x = rotQuaternion.X;
             double y = rotQuaternion.Y;
@@ -263,16 +286,17 @@ namespace KinectEmoji
             double w = rotQuaternion.W;
 
             // convert face rotation quaternion to Euler angles in degrees
-            double yawD, pitchD, rollD;
-            pitchD = Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / Math.PI * 180.0;
-            yawD = Math.Asin(2 * ((w * y) - (x * z))) / Math.PI * 180.0;
-            rollD = Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / Math.PI * 180.0;
-
+            //double yawD, pitchD, rollD;
+            pitch = Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / Math.PI * 180.0;
+            yaw = Math.Asin(2 * ((w * y) - (x * z))) / Math.PI * 180.0;
+            roll = Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / Math.PI * 180.0;
+            /*
             // clamp the values to a multiple of the specified increment to control the refresh rate
             double increment = FaceRotationIncrementInDegrees;
             pitch = (int)(Math.Floor((pitchD + ((increment / 2.0) * (pitchD > 0 ? 1.0 : -1.0))) / increment) * increment);
             yaw = (int)(Math.Floor((yawD + ((increment / 2.0) * (yawD > 0 ? 1.0 : -1.0))) / increment) * increment);
             roll = (int)(Math.Floor((rollD + ((increment / 2.0) * (rollD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            */
         }
 
         private void HDFaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)

@@ -71,7 +71,7 @@ namespace KinectEmoji
         }
     }
 
-    class Face
+    class FaceHD
     {
         public const int EyeLeft = 0;
         public const int LefteyeInnercorner = 210;
@@ -129,7 +129,7 @@ namespace KinectEmoji
 
         public List<MyPoint> _trackedPoints = new List<MyPoint>();
 
-        static Face()
+        static FaceHD()
         {
             IndexToPos = new Dictionary<int, int>();
             for (int i = 0; i < TargetPoints.Length; ++i)
@@ -138,7 +138,7 @@ namespace KinectEmoji
             } 
         }
 
-        public Face()
+        public FaceHD()
         {
             for (int i = 0; i < TargetPoints.Length; ++i)
             {

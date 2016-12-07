@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 using Microsoft.Kinect.Face;
 using WindowsPreview.Kinect;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -113,9 +114,11 @@ namespace KinectEmoji
             canvasHD.Children.Add(myLine);
 
             // tmp
-            write_log(Face.MouthUpperlipMidbottom.ToString());
-            var face = new Face();
+            write_log(FaceHD.MouthUpperlipMidbottom.ToString());
+            var face = new FaceHD();
             write_log(face.dump_str());
+
+            emoji.Source = new BitmapImage(new Uri("ms-appx:///Images/happy.jpg"));
         }
 
         private void write_log(String s)
@@ -301,18 +304,18 @@ namespace KinectEmoji
                         var myheight = 2.0;
 
                         //if (index == 91 || index == 687 || index == 19 || index == 1072 || index == 10 || index == 8) {
-                        if (Face.isMouthPoint(index))
+                        if (FaceHD.isMouthPoint(index))
                         {
                             mycolor = Colors.Red;
                             mywidth = 20.0;
                             myheight = 20.0;
                         }
-                        else if (index == Face.LeftcheekCenter)
+                        else if (index == FaceHD.LeftcheekCenter)
                         {
                             mycolor = Colors.Green;
                             mywidth = 20.0;
                             myheight = 20.0;
-                        } else if (index == Face.NoseBottom)
+                        } else if (index == FaceHD.NoseBottom)
                         {
                             mycolor = Colors.Black;
                             mywidth = 20.0;
@@ -346,7 +349,7 @@ namespace KinectEmoji
                     }
                 }
 
-                var face = new Face();
+                var face = new FaceHD();
 
                 for (int index = 0; index < vertices.Count; index++)
                 //for (int i = 0; i < _target_points.Length; i++)

@@ -117,7 +117,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Face.cs" />
+    <Compile Include="FaceHD.cs" />
     <Compile Include="ColorBitmapGenerator.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -136,6 +136,7 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Images\happy.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

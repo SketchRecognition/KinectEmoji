@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsPreview.Kinect;
 
 namespace KinectEmoji
 {
@@ -29,6 +30,18 @@ namespace KinectEmoji
                 _hd_list.RemoveFirst();
             }
         }
+
+        public bool isHappy()
+        {
+            DetectionResult r = _normal_list.Last().happy;
+            if (r == DetectionResult.Yes || r == DetectionResult.Maybe)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 
         public String dump_str()
         {

@@ -257,6 +257,7 @@ namespace KinectEmoji
                 {
                     frame.GetAndRefreshFaceAlignmentResult(_faceAlignment);
                     UpdateFacePoints();
+                    UpdateEmoji();
                 }
             }
         }
@@ -348,6 +349,17 @@ namespace KinectEmoji
                 _faceData.addHDData(face);
                 info.Text = face.dump_str();
                 info.Text += _faceData.dump_str();
+            }
+        }
+
+        private void UpdateEmoji()
+        {
+            if (_faceData.isHappy())
+            {
+                emoji.Source = Emoji.happy;
+            } else
+            {
+                emoji.Source = Emoji.shock;
             }
         }
 

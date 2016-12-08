@@ -208,6 +208,7 @@ namespace KinectEmoji
                         // 5) Do magic!
 
                         // Get the face points, mapped in the color space.
+                        /*
                         var eyeLeft = result.FacePointsInColorSpace[FacePointType.EyeLeft];
                         var eyeRight = result.FacePointsInColorSpace[FacePointType.EyeRight];
                         var nose = result.FacePointsInColorSpace[FacePointType.Nose];
@@ -217,6 +218,8 @@ namespace KinectEmoji
                         var eyeLeftClosed = result.FaceProperties[FaceProperty.LeftEyeClosed];
                         var eyeRightClosed = result.FaceProperties[FaceProperty.RightEyeClosed];
                         var mouthOpen = result.FaceProperties[FaceProperty.MouthOpen];
+                        var happy = result.FaceProperties[FaceProperty.Happy];
+                        var lookingAway = result.FaceProperties[FaceProperty.LookingAway];
 
                         // Position the canvas UI elements
                         Canvas.SetLeft(ellipseEyeLeft, eyeLeft.X - ellipseEyeLeft.Width / 2.0);
@@ -252,7 +255,7 @@ namespace KinectEmoji
                         {
                             ellipseEyeRight.Visibility = Visibility.Visible;
                         }
-
+                        */
                         /*
                         if (mouthOpen == DetectionResult.Yes || mouthOpen == DetectionResult.Maybe)
                         {
@@ -263,6 +266,7 @@ namespace KinectEmoji
                             ellipseMouth.Height = 20.0;
                         }
                         */
+                        /*
                         infoNormal.Text += "\n";
                         //if (result.FaceRotationQuaternion != null)
                         if (true)
@@ -273,31 +277,15 @@ namespace KinectEmoji
                                         "FacePitch : " + pitch + "\n" +
                                         "FacenRoll : " + roll + "\n";
                         }
+                        */
+                        var f = new FaceNormal(result);
+                        infoNormal.Text = f.dump_str();
                     }
                 }
             }
         }
 
-        private static void ExtractFaceRotationInDegrees(Vector4 rotQuaternion, out double pitch, out double yaw, out double roll)
-        {
-            double x = rotQuaternion.X;
-            double y = rotQuaternion.Y;
-            double z = rotQuaternion.Z;
-            double w = rotQuaternion.W;
 
-            // convert face rotation quaternion to Euler angles in degrees
-            //double yawD, pitchD, rollD;
-            pitch = Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / Math.PI * 180.0;
-            yaw = Math.Asin(2 * ((w * y) - (x * z))) / Math.PI * 180.0;
-            roll = Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / Math.PI * 180.0;
-            /*
-            // clamp the values to a multiple of the specified increment to control the refresh rate
-            double increment = FaceRotationIncrementInDegrees;
-            pitch = (int)(Math.Floor((pitchD + ((increment / 2.0) * (pitchD > 0 ? 1.0 : -1.0))) / increment) * increment);
-            yaw = (int)(Math.Floor((yawD + ((increment / 2.0) * (yawD > 0 ? 1.0 : -1.0))) / increment) * increment);
-            roll = (int)(Math.Floor((rollD + ((increment / 2.0) * (rollD > 0 ? 1.0 : -1.0))) / increment) * increment);
-            */
-        }
 
         private void HDFaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)
         {

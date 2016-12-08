@@ -143,6 +143,8 @@
     <Content Include="Images\no.png" />
     <Content Include="Images\none.png" />
     <Content Include="Images\shock.png" />
+    <Content Include="Images\wink.jpg" />
+    <Content Include="Images\yes.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

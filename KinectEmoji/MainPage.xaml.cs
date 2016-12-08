@@ -138,7 +138,7 @@ namespace KinectEmoji
         {
         // Your UI update code goes here!
         tmp.Text = String.Format("{0}\n", DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss.fff tt"));
-            tmp.Text += _faceData.dump_str();
+            //tmp.Text += _faceData.dump_str();
         }
         );
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -356,10 +356,19 @@ namespace KinectEmoji
             {
                 emoji.Source = Emoji.no;
             }
+            else if (_faceData.isNodHead())
+            {
+                emoji.Source = Emoji.yes;
+            }
             else if (_faceData.isHappy())
             {
                 emoji.Source = Emoji.happy;
-            } else if (_faceData.isMouthOpen())
+            }
+            else if (_faceData.isWink())
+            {
+                emoji.Source = Emoji.wink;
+            }
+            else if (_faceData.isMouthOpen())
             {
                 emoji.Source = Emoji.shock;
             } else

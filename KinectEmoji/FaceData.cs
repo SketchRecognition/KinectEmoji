@@ -33,18 +33,41 @@ namespace KinectEmoji
 
         public bool isHappy()
         {
-            /*
-            DetectionResult r = _normal_list.Last().happy;
+            double threshold = 0.5;
+            int total = _normal_list.Where(e => e.happy == DetectionResult.Yes).Sum(e => 1);
+            return ((double)total / _normal_list.Count) > threshold;
+        }
+        
+        public bool isWink()
+        {
+            return isLeftEyeClosed() ^ isRightEyeClosed();
+        }
+
+        public bool isLeftEyeClosed()
+        {/*
+            DetectionResult r = _normal_list.Last().eyeLeftClosed;
             if (r == DetectionResult.Yes)
             {
                 return true;
-            }
+            }*/
+            
+            //return false;
+            double threshold = 0.4;
+            int total = _normal_list.Where(e => e.eyeLeftClosed == DetectionResult.Yes).Sum(e => 1);
+            return ((double)total / _normal_list.Count) > threshold;
+        }
 
-            return false;
-            */
+        public bool isRightEyeClosed()
+        {/*
+            DetectionResult r = _normal_list.Last().eyeRightClosed;
+            if (r == DetectionResult.Yes)
+            {
+                return true;
+            }*/
 
-            double threshold = 0.5;
-            int total = _normal_list.Where(e => e.happy == DetectionResult.Yes).Sum(e => 1);
+            //return false;
+            double threshold = 0.4;
+            int total = _normal_list.Where(e => e.eyeRightClosed == DetectionResult.Yes).Sum(e => 1);
             return ((double)total / _normal_list.Count) > threshold;
         }
 
@@ -57,8 +80,18 @@ namespace KinectEmoji
         public bool isShakeHead()
         {
             double threshold = 60;
+
             double max = _normal_list.Max(e => e.yaw);
             double min = _normal_list.Min(e => e.yaw);
+            return Math.Abs(max - min) > threshold;
+        }
+
+        public bool isNodHead()
+        {
+            double threshold = 40;
+
+            double max = _normal_list.Max(e => e.pitch);
+            double min = _normal_list.Min(e => e.pitch);
             return Math.Abs(max - min) > threshold;
         }
 

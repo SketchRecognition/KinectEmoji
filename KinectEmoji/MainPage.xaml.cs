@@ -158,8 +158,8 @@ namespace KinectEmoji
             String json_str = _faceData.json(tags.Text);
             sysLog.Text = json_str;
             //String json_str = "QQ";
-            String folder_name = tags.Text;
-            String file_name = tags.Text + ".txt";
+            String folder_name = "KinectFrameData";
+            String file_name = String.Format(@"{0}_{1}.txt", tags.Text, DateTime.Now.Ticks);
 
             byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(json_str);
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;

@@ -127,6 +127,7 @@ namespace KinectEmoji
 
         //public MyPoint pMouthLeftcorner = new MyPoint();
 
+        public DateTime time { get; }
         public List<MyPoint> _trackedPoints = new List<MyPoint>();
 
         static FaceHD()
@@ -140,6 +141,7 @@ namespace KinectEmoji
 
         public FaceHD()
         {
+            time = DateTime.Now;
             for (int i = 0; i < TargetPoints.Length; ++i)
             {
                 _trackedPoints.Add(new MyPoint());

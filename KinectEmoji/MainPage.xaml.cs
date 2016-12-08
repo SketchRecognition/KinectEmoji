@@ -324,6 +324,7 @@ namespace KinectEmoji
                 }
 
                 var face = new FaceHD();
+               
 
                 for (int index = 0; index < vertices.Count; index++)
                 //for (int i = 0; i < _target_points.Length; i++)
@@ -344,7 +345,9 @@ namespace KinectEmoji
                 }
 
                 //write_log(face.dump_str());
+                _faceData.addHDData(face);
                 info.Text = face.dump_str();
+                info.Text += _faceData.dump_str();
             }
         }
 

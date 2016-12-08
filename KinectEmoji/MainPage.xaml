@@ -10,10 +10,10 @@
     <Border BorderBrush="Black" BorderThickness="10">
     <Grid Background="White">
         <Viewbox>
-            <Grid Width="3920" Height="2580">
+            <Grid Width="3920" Height="3080">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1080" />
-                    <RowDefinition Height="1000" />
+                    <RowDefinition Height="1200" />
                     <RowDefinition Height="500" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>

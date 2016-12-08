@@ -8,8 +8,9 @@ namespace KinectEmoji
 {
     class FaceData
     {
-        private LinkedList<FaceNormal> _normal_list = new LinkedList<FaceNormal>();
         private TimeSpan span = TimeSpan.FromSeconds(2);
+        private LinkedList<FaceNormal> _normal_list = new LinkedList<FaceNormal>();
+        private LinkedList<FaceHD> _hd_list = new LinkedList<FaceHD>();
 
         public void addNormalData(FaceNormal f)
         {
@@ -20,10 +21,20 @@ namespace KinectEmoji
             }
         }
 
+        public void addHDData(FaceHD f)
+        {
+            _hd_list.AddLast(f);
+            while (f.time.Subtract(_hd_list.First().time) > span)
+            {
+                _hd_list.RemoveFirst();
+            }
+        }
+
         public String dump_str()
         {
             String str = "";
-            str += String.Format("_normal_list: {0}", _normal_list.Count);
+            str += String.Format("_normal_list: {0}\n", _normal_list.Count);
+            str += String.Format("_hd_list: {0}\n", _hd_list.Count);
             return str;
         }
     }

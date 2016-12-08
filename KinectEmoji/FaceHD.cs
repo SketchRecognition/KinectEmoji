@@ -34,9 +34,9 @@ namespace KinectEmoji
         public String json()
         {
             String str = "{";
-            str += String.Format("x: \"{0}\",", x);
-            str += String.Format("y: \"{0}\",", y);
-            str += String.Format("z: \"{0}\"", z);
+            str += String.Format("x:\"{0}\",", x);
+            str += String.Format("y:\"{0}\",", y);
+            str += String.Format("z:\"{0}\"", z);
             str += "}";
             return str;
         }
@@ -176,9 +176,9 @@ namespace KinectEmoji
 
             for (int i = 0; i < TargetPoints.Length; ++i)
             {
-                str += String.Format("{0}: {1},", TargetPointsName[i], _trackedPoints[i].json());
+                str += String.Format("{0}:{1},", TargetPointsName[i], _trackedPoints[i].json());
             }
-            str += String.Format("time: \"{0}\"", time.Ticks);
+            str += String.Format("time:\"{0}\"", time.Ticks);
             str += "}";
             return str;
         }

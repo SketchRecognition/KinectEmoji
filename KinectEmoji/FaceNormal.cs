@@ -59,14 +59,14 @@ namespace KinectEmoji
         public String json()
         {
             String str = "{";
-            str += String.Format("time: \"{0}\",", time.Ticks);
-            str += String.Format("eyeLeftClosed: \"{0}\",", resultToStr(eyeLeftClosed));
-            str += String.Format("eyeRightClosed: \"{0}\",", resultToStr(eyeRightClosed));
-            str += String.Format("happy: \"{0}\",", resultToStr(happy));
-            str += String.Format("lookingAway: \"{0}\",", resultToStr(lookingAway));
-            str += String.Format("yaw: \"{0}\",", yaw);
-            str += String.Format("pitch: \"{0}\",", pitch);
-            str += String.Format("roll: \"{0}", roll);
+            str += String.Format("time:\"{0}\",", time.Ticks);
+            str += String.Format("eyeLeftClosed:\"{0}\",", resultToStr(eyeLeftClosed));
+            str += String.Format("eyeRightClosed:\"{0}\",", resultToStr(eyeRightClosed));
+            str += String.Format("happy:\"{0}\",", resultToStr(happy));
+            str += String.Format("lookingAway:\"{0}\",", resultToStr(lookingAway));
+            str += String.Format("yaw:\"{0}\",", yaw);
+            str += String.Format("pitch:\"{0}\",", pitch);
+            str += String.Format("roll:\"{0}", roll);
             str += "}";
             return str;
         }

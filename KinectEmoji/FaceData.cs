@@ -121,7 +121,7 @@ namespace KinectEmoji
             int count = 0;
             foreach(var f in _normal_list)
             {
-                str += String.Format("{0}: {1},", count++, f.json());
+                str += String.Format("{0}:{1},", count++, f.json());
             }
             str += "}";
             return str;
@@ -133,7 +133,7 @@ namespace KinectEmoji
             int count = 0;
             foreach (var f in _hd_list)
             {
-                str += String.Format("{0}: {1},", count++, f.json());
+                str += String.Format("{0}:{1},", count++, f.json());
             }
             str += "}";
             return str;
@@ -142,9 +142,9 @@ namespace KinectEmoji
         public String json(String tag = "unknown")
         {
             String str = "{";
-            str += String.Format("tag: \"{0}\",", tag);
-            str += String.Format("normal: {0},", json_normal());
-            str += String.Format("hd: {0}", json_hd());
+            str += String.Format("tag:\"{0}\",", tag);
+            str += String.Format("normal:{0},", json_normal());
+            str += String.Format("hd:{0}", json_hd());
             str += "}";
             return str;
         }

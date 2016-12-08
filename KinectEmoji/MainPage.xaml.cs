@@ -352,7 +352,11 @@ namespace KinectEmoji
 
         private void UpdateEmoji()
         {
-            if (_faceData.isHappy())
+            if (_faceData.isShakeHead())
+            {
+                emoji.Source = Emoji.no;
+            }
+            else if (_faceData.isHappy())
             {
                 emoji.Source = Emoji.happy;
             } else if (_faceData.isMouthOpen())

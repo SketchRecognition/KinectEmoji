@@ -9,7 +9,7 @@ namespace KinectEmoji
 {
     class FaceData
     {
-        private TimeSpan span = TimeSpan.FromSeconds(2);
+        private TimeSpan span = TimeSpan.FromSeconds(1);
         private LinkedList<FaceNormal> _normal_list = new LinkedList<FaceNormal>();
         private LinkedList<FaceHD> _hd_list = new LinkedList<FaceHD>();
 
@@ -33,6 +33,7 @@ namespace KinectEmoji
 
         public bool isHappy()
         {
+            /*
             DetectionResult r = _normal_list.Last().happy;
             if (r == DetectionResult.Yes)
             {
@@ -40,12 +41,25 @@ namespace KinectEmoji
             }
 
             return false;
+            */
+
+            double threshold = 0.5;
+            int total = _normal_list.Where(e => e.happy == DetectionResult.Yes).Sum(e => 1);
+            return ((double)total / _normal_list.Count) > threshold;
         }
 
         public bool isMouthOpen()
         {
-            double threshold = 0.3;
+            double threshold = 0.6;
             return _hd_list.Last().feature_mouthRatio() > threshold;
+        }
+
+        public bool isShakeHead()
+        {
+            double threshold = 60;
+            double max = _normal_list.Max(e => e.yaw);
+            double min = _normal_list.Min(e => e.yaw);
+            return Math.Abs(max - min) > threshold;
         }
 
 

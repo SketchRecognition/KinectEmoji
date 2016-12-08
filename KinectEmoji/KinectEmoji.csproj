@@ -140,6 +140,7 @@
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Images\happy.jpg" />
+    <Content Include="Images\no.png" />
     <Content Include="Images\none.png" />
     <Content Include="Images\shock.png" />
   </ItemGroup>

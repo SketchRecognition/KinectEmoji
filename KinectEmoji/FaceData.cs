@@ -140,6 +140,38 @@ namespace KinectEmoji
             return Math.Abs(max - min) > threshold;
         }
 
+        private String json_normal()
+        {
+            String str = "{";
+            int count = 0;
+            foreach(var f in _normal_list)
+            {
+                str += String.Format("{0}: {1},", count++, f.json());
+            }
+            str += "}";
+            return str;
+        }
+
+        private String json_hd()
+        {
+            String str = "{";
+            int count = 0;
+            foreach (var f in _hd_list)
+            {
+                str += String.Format("{0}: {1},", count++, f.json());
+            }
+            str += "}";
+            return str;
+        }
+
+        public String json()
+        {
+            String str = "{";
+            str += String.Format("normal: {0},", json_normal());
+            str += String.Format("hd: {0}", json_hd());
+            str += "}";
+            return str;
+        }
 
         public String dump_str()
         {

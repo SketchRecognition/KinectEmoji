@@ -31,6 +31,16 @@ namespace KinectEmoji
             );
         }
 
+        public String json()
+        {
+            String str = "{";
+            str += String.Format("x: \"{0}\",", x);
+            str += String.Format("y: \"{0}\",", y);
+            str += String.Format("z: \"{0}\"", z);
+            str += "}";
+            return str;
+        }
+
         public override String ToString()
         {
             return String.Format("({0:F2}, {1:F2}, {2:F2})", x, y, z);
@@ -158,6 +168,19 @@ namespace KinectEmoji
         {
             //return MyVector(getPoint(LefteyeInnercorner), getPoint(RighteyeInnercorner));
             return 0;
+        }
+
+        public String json()
+        {
+            String str = "{";
+
+            for (int i = 0; i < TargetPoints.Length; ++i)
+            {
+                str += String.Format("{0}: {1},", TargetPointsName[i], _trackedPoints[i].json());
+            }
+            str += String.Format("time: \"{0}\"", time.Ticks);
+            str += "}";
+            return str;
         }
 
         public String dump_str()

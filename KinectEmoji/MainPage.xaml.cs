@@ -114,6 +114,7 @@ namespace KinectEmoji
             canvasHD.Children.Add(myLine);
 
             // tmp
+            write_log("llllllllllooooooooooooooooooonnnnnnnnnnnnnnnnnnnnnggggggggggggggg");
             write_log(FaceHD.MouthUpperlipMidbottom.ToString());
             var face = new FaceHD();
             write_log(face.dump_str());
@@ -148,7 +149,8 @@ namespace KinectEmoji
         public void Record_Button_Click(object sender, RoutedEventArgs e)
         {
             tmp.Text = "click";
-            _faceData.save();
+            
+            sysLog.Text = _faceData.json();
         }
 
         private void write_log(String s)

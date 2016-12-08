@@ -39,7 +39,7 @@
                     </Grid>
 
                     <ScrollViewer Name="sysLogViewer" Grid.Row="1" Grid.Column="0">
-                    <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="70"/>
+                    <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="70" TextWrapping="Wrap"/>
                     </ScrollViewer>
 
                     <Grid Grid.Row="0" Grid.Column="1">

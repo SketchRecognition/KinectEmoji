@@ -206,20 +206,13 @@ namespace KinectEmoji
                     if (result != null)
                     {
                         // 5) Do magic!
+                        var f = new FaceNormal(result);
+                        infoNormal.Text = f.dump_str();
 
                         // Get the face points, mapped in the color space.
-                        /*
+
                         var eyeLeft = result.FacePointsInColorSpace[FacePointType.EyeLeft];
                         var eyeRight = result.FacePointsInColorSpace[FacePointType.EyeRight];
-                        var nose = result.FacePointsInColorSpace[FacePointType.Nose];
-                        var mouthLeft = result.FacePointsInColorSpace[FacePointType.MouthCornerLeft];
-                        var mouthRight = result.FacePointsInColorSpace[FacePointType.MouthCornerRight];
-
-                        var eyeLeftClosed = result.FaceProperties[FaceProperty.LeftEyeClosed];
-                        var eyeRightClosed = result.FaceProperties[FaceProperty.RightEyeClosed];
-                        var mouthOpen = result.FaceProperties[FaceProperty.MouthOpen];
-                        var happy = result.FaceProperties[FaceProperty.Happy];
-                        var lookingAway = result.FaceProperties[FaceProperty.LookingAway];
 
                         // Position the canvas UI elements
                         Canvas.SetLeft(ellipseEyeLeft, eyeLeft.X - ellipseEyeLeft.Width / 2.0);
@@ -228,26 +221,17 @@ namespace KinectEmoji
                         Canvas.SetLeft(ellipseEyeRight, eyeRight.X - ellipseEyeRight.Width / 2.0);
                         Canvas.SetTop(ellipseEyeRight, eyeRight.Y - ellipseEyeRight.Height / 2.0);
 
-                        //Canvas.SetLeft(ellipseNose, nose.X - ellipseNose.Width / 2.0);
-                        //Canvas.SetTop(ellipseNose, nose.Y - ellipseNose.Height / 2.0);
-
-                        //Canvas.SetLeft(ellipseMouth, ((mouthRight.X + mouthLeft.X) / 2.0) - ellipseMouth.Width / 2.0);
-                        //Canvas.SetTop(ellipseMouth, ((mouthRight.Y + mouthLeft.Y) / 2.0) - ellipseMouth.Height / 2.0);
-                        //ellipseMouth.Width = Math.Abs(mouthRight.X - mouthLeft.X);
-
                         // Display or hide the ellipses
-                        if (eyeLeftClosed == DetectionResult.Yes || eyeLeftClosed == DetectionResult.Maybe)
+                        if (f.eyeLeftClosed == DetectionResult.Yes || f.eyeLeftClosed == DetectionResult.Maybe)
                         {
                             ellipseEyeLeft.Visibility = Visibility.Collapsed;
-                            infoNormal.Text = "close";
                         }
                         else
                         {
                             ellipseEyeLeft.Visibility = Visibility.Visible;
-                            infoNormal.Text = "open";
                         }
 
-                        if (eyeRightClosed == DetectionResult.Yes || eyeRightClosed == DetectionResult.Maybe)
+                        if (f.eyeRightClosed == DetectionResult.Yes || f.eyeRightClosed == DetectionResult.Maybe)
                         {
                             ellipseEyeRight.Visibility = Visibility.Collapsed;
                         }
@@ -255,31 +239,6 @@ namespace KinectEmoji
                         {
                             ellipseEyeRight.Visibility = Visibility.Visible;
                         }
-                        */
-                        /*
-                        if (mouthOpen == DetectionResult.Yes || mouthOpen == DetectionResult.Maybe)
-                        {
-                            ellipseMouth.Height = 50.0;
-                        }
-                        else
-                        {
-                            ellipseMouth.Height = 20.0;
-                        }
-                        */
-                        /*
-                        infoNormal.Text += "\n";
-                        //if (result.FaceRotationQuaternion != null)
-                        if (true)
-                        {
-                            double pitch, yaw, roll;
-                            ExtractFaceRotationInDegrees(result.FaceRotationQuaternion, out pitch, out yaw, out roll);
-                            infoNormal.Text += "FaceYaw : " + yaw + "\n" +
-                                        "FacePitch : " + pitch + "\n" +
-                                        "FacenRoll : " + roll + "\n";
-                        }
-                        */
-                        var f = new FaceNormal(result);
-                        infoNormal.Text = f.dump_str();
                     }
                 }
             }

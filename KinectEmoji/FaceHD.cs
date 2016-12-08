@@ -53,24 +53,6 @@ namespace KinectEmoji
         }
     }
 
-    class FacePoint
-    {
-        public int index { get; }
-        public String name { get; }
-        public MyPoint point = new MyPoint();
-
-        public FacePoint(int i, String n)
-        {
-            index = i;
-            name = n;
-        }
-
-        public override string ToString()
-        {
-            return String.Format("{0}({1}): {2}", name, index, point.ToString());
-        }
-    }
-
     class FaceHD
     {
         public const int EyeLeft = 0;
@@ -166,6 +148,12 @@ namespace KinectEmoji
             return _trackedPoints[IndexToPos[index]];
         }
 
+        public double distance(int a, int b)
+        {
+            double result = getPoint(a).distance(getPoint(b));
+            return result;
+        }
+
         public double unitLength()
         {
             //return MyVector(getPoint(LefteyeInnercorner), getPoint(RighteyeInnercorner));
@@ -175,12 +163,14 @@ namespace KinectEmoji
         public String dump_str()
         {
             
-            String tmp = "";
+            String str = "";
             
             for (int i = 0; i < TargetPoints.Length; ++i)
             {
-                tmp += String.Format("{0}({1}): {2}\n", TargetPointsName[i], TargetPoints[i], _trackedPoints[i].ToString());
+                str += String.Format("{0}({1}): {2}\n", TargetPointsName[i], TargetPoints[i], _trackedPoints[i].ToString());
             }
+            str += String.Format("feature_mouthRatio(): {0}\n", feature_mouthRatio());
+
             //return String.Format("MouthLeftcorner: {0}", pMouthLeftcorner.ToString());
             /*
             MyVector v = new MyVector(_trackedPoints[0].point, _trackedPoints[1].point);
@@ -194,20 +184,14 @@ namespace KinectEmoji
 
 
 
-            return tmp;
+            return str;
         }
 
-        public double feature_leftEyeRatio()
+        public double feature_mouthRatio()
         {
-            double result = getPoint(LefteyeMidtop).distance(getPoint(LefteyeMidbottom))
-                / getPoint(LefteyeOutercorner).distance(getPoint(LefteyeInnercorner));
+            double result = distance(MouthLowerlipMidtop, MouthUpperlipMidbottom)
+                / distance(MouthLeftcorner, MouthRightcorner);
             return result;
-        }
-
-        public bool classify_leftEyeClose()
-        {
-            double threshold = 0.2;
-            return feature_leftEyeRatio() < threshold;
         }
     }
 }

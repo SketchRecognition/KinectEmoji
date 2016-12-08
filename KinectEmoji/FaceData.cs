@@ -34,12 +34,18 @@ namespace KinectEmoji
         public bool isHappy()
         {
             DetectionResult r = _normal_list.Last().happy;
-            if (r == DetectionResult.Yes || r == DetectionResult.Maybe)
+            if (r == DetectionResult.Yes)
             {
                 return true;
             }
 
             return false;
+        }
+
+        public bool isMouthOpen()
+        {
+            double threshold = 0.3;
+            return _hd_list.Last().feature_mouthRatio() > threshold;
         }
 
 

@@ -11,5 +11,6 @@ namespace KinectEmoji
     {
         public static BitmapImage happy = new BitmapImage(new Uri("ms-appx:///Images/happy.jpg"));
         public static BitmapImage shock = new BitmapImage(new Uri("ms-appx:///Images/shock.png"));
+        public static BitmapImage none = new BitmapImage(new Uri("ms-appx:///Images/none.png"));
     }
 }

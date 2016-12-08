@@ -118,7 +118,7 @@ namespace KinectEmoji
             var face = new FaceHD();
             write_log(face.dump_str());
 
-            emoji.Source = Emoji.shock;
+            emoji.Source = Emoji.none;
 
             var autoEvent = new AutoResetEvent(false);
 
@@ -247,8 +247,6 @@ namespace KinectEmoji
             }
         }
 
-
-
         private void HDFaceReader_FrameArrived(object sender, HighDefinitionFaceFrameArrivedEventArgs e)
         {
             using (var frame = e.FrameReference.AcquireFrame())
@@ -357,9 +355,12 @@ namespace KinectEmoji
             if (_faceData.isHappy())
             {
                 emoji.Source = Emoji.happy;
-            } else
+            } else if (_faceData.isMouthOpen())
             {
                 emoji.Source = Emoji.shock;
+            } else
+            {
+                emoji.Source = null;
             }
         }
 

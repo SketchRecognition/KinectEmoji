@@ -145,6 +145,11 @@ namespace KinectEmoji
             
         }
 
+        public void Button_Click(object sender, RoutedEventArgs e)
+        {
+            tmp.Text = "click";
+        }
+
         private void write_log(String s)
         {
             sysLog.Text += '\n';

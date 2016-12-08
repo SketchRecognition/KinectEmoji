@@ -18,7 +18,8 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
-                    <ColumnDefinition Width="2000" />
+                    <ColumnDefinition Width="1500" />
+                    <ColumnDefinition Width="500" />
                 </Grid.ColumnDefinitions>
 
                 <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="0"/>
@@ -68,6 +69,10 @@
                     </Grid>
                     <Grid Grid.Row="2">
                         <TextBlock Grid.Row="0" Name="tmp" Text="tmp" Foreground="Black" FontSize="50"/>
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Button Content="Button" Width ="500" Height="500" FontSize="100" Foreground="Black" Click="Button_Click"/>
                     </Grid>
 
                 </Grid>

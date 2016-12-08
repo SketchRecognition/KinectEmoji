@@ -118,6 +118,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Emoji.cs" />
+    <Compile Include="FaceData.cs" />
     <Compile Include="FaceHD.cs" />
     <Compile Include="ColorBitmapGenerator.cs" />
     <Compile Include="FaceNormal.cs" />

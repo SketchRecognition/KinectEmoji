@@ -10,6 +10,7 @@ namespace KinectEmoji
 {
     class FaceNormal
     {
+        public DateTime time { get; }
         public DetectionResult eyeLeftClosed { get; }
         public DetectionResult eyeRightClosed { get; }
         public DetectionResult happy { get; }
@@ -20,6 +21,8 @@ namespace KinectEmoji
 
         public FaceNormal(FaceFrameResult result)
         {
+            time = DateTime.Now;
+
             eyeLeftClosed = result.FaceProperties[FaceProperty.LeftEyeClosed];
             eyeRightClosed = result.FaceProperties[FaceProperty.RightEyeClosed];
             happy = result.FaceProperties[FaceProperty.Happy];
@@ -36,7 +39,7 @@ namespace KinectEmoji
             roll = Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / Math.PI * 180.0;
         }
 
-        public String resultToStr(DetectionResult r)
+        public static String resultToStr(DetectionResult r)
         {
             if (r == DetectionResult.Yes) {
                 return "Yes";

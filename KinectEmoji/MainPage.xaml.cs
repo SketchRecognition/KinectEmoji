@@ -45,16 +45,14 @@ namespace KinectEmoji
         private FaceModel _faceModel = null;
         private List<Ellipse> _points = new List<Ellipse>();
 
-        private const double FaceRotationIncrementInDegrees = 5.0;
-
-        private int [] _target_points = {
-            0, 210, 469, 241, 1104, 843, 1117, 731, 1090, 346, 140, 222, 803, 758, 849, 91, 687, 19, 1072, 10, 8, 18, 14, 156, 783, 24, 151, 772, 28, 412, 933, 458, 674, 4, 1307, 1327
-        };
+        // data
+        private FaceData _faceData = null;
         
         public MainPage()
         {
             this.InitializeComponent();
             _sensor = KinectSensor.GetDefault();
+            _faceData = new FaceData();
 
             if (_sensor != null)
             {
@@ -125,11 +123,13 @@ namespace KinectEmoji
             var autoEvent = new AutoResetEvent(false);
 
             tmp.Text = "tmp";
-            var stateTimer = new Timer(tmp_callback,
-                                   autoEvent, 1000, 250);
+            var stateTimer = new Timer(tmp_callback, autoEvent, 1000, 1000);
+            //var stateTimer = new Timer(tmp_callback);
+            //var timer = new System.Timers.Timer(1000);
+
         }
 
-        int tmp_count = 0;
+        //int tmp_count = 0;
         public void tmp_callback(Object stateInfo)
         {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -137,7 +137,8 @@ namespace KinectEmoji
         () =>
         {
         // Your UI update code goes here!
-        tmp.Text = String.Format("{0}", tmp_count++);
+        tmp.Text = String.Format("{0}\n", DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss.fff tt"));
+            tmp.Text += _faceData.dump_str();
         }
         );
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -207,7 +208,9 @@ namespace KinectEmoji
                     {
                         // 5) Do magic!
                         var f = new FaceNormal(result);
+                        _faceData.addNormalData(f);
                         infoNormal.Text = f.dump_str();
+                        infoNormal.Text += _faceData.dump_str();
 
                         // Get the face points, mapped in the color space.
 

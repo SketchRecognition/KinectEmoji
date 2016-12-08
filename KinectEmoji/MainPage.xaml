@@ -73,6 +73,12 @@
 
                     <Grid Grid.Row="0" Grid.Column="2">
                         <Button Content="Record" Width ="500" Height="500" FontSize="100" Foreground="Black" Click="Record_Button_Click"/>
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Border BorderBrush="Black" BorderThickness="5">
+                        <TextBox Name="tags" Text="unknown" Width ="500" Height="500" FontSize="100" Foreground="Black" />
+                    </Border>
                     </Grid>
 
                 </Grid>

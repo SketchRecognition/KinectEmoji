@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WindowsPreview.Kinect;
-using Windows.Storage;
+
 
 namespace KinectEmoji
 {
@@ -33,32 +33,7 @@ namespace KinectEmoji
             }
         }
 
-        public async void save()
-        {
-            String qq = "ffffwww";
-            byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(qq);
-            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var dataFolder = await local.CreateFolderAsync("DataFolder",
-    CreationCollisionOption.OpenIfExists);
 
-            // Create a new file named DataFile.txt.
-            var file = await dataFolder.CreateFileAsync("DataFile.txt",
-            CreationCollisionOption.ReplaceExisting);
-
-            // Write the data from the textbox.
-            using (var s = await file.OpenStreamForWriteAsync())
-            {
-                s.Write(fileBytes, 0, fileBytes.Length);
-            }
-
-            //string[] lines = { "aa", "bb" };
-            //StreamWriter w = new StreamWriter
-            //System.IO.Path
-            //string path = "QQ";
-            //StreamWriter w = new StreamWriter("qq.txt", false);
-            //StreamWriter file = File.CreateText(@"C:\Users\Public\test.txt");
-
-        }
 
         public bool isHappy()
         {
@@ -164,9 +139,10 @@ namespace KinectEmoji
             return str;
         }
 
-        public String json()
+        public String json(String tag = "unknown")
         {
             String str = "{";
+            str += String.Format("tag: \"{0}\",", tag);
             str += String.Format("normal: {0},", json_normal());
             str += String.Format("hd: {0}", json_hd());
             str += "}";

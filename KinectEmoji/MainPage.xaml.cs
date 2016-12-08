@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Shapes;
 using Microsoft.Kinect.Face;
 using WindowsPreview.Kinect;
 using System.Threading;
+using Windows.Storage;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -149,8 +150,37 @@ namespace KinectEmoji
         public void Record_Button_Click(object sender, RoutedEventArgs e)
         {
             tmp.Text = "click";
-            
-            sysLog.Text = _faceData.json();
+            save();
+        }
+
+        public async void save()
+        {
+            String json_str = _faceData.json(tags.Text);
+            sysLog.Text = json_str;
+            //String json_str = "QQ";
+            String folder_name = tags.Text;
+            String file_name = tags.Text + ".txt";
+
+            byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(json_str);
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var dataFolder = await local.CreateFolderAsync(folder_name, CreationCollisionOption.OpenIfExists);
+
+            // Create a new file named DataFile.txt.
+            var file = await dataFolder.CreateFileAsync(file_name, CreationCollisionOption.ReplaceExisting);
+
+            // Write the data from the textbox.
+            using (var s = await file.OpenStreamForWriteAsync())
+            {
+                s.Write(fileBytes, 0, fileBytes.Length);
+            }
+
+            //string[] lines = { "aa", "bb" };
+            //StreamWriter w = new StreamWriter
+            //System.IO.Path
+            //string path = "QQ";
+            //StreamWriter w = new StreamWriter("qq.txt", false);
+            //StreamWriter file = File.CreateText(@"C:\Users\Public\test.txt");
+
         }
 
         private void write_log(String s)

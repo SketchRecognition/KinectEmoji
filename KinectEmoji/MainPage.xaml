@@ -10,14 +10,16 @@
     <Border BorderBrush="Black" BorderThickness="10">
     <Grid Background="White">
         <Viewbox>
-            <Grid Width="2920" Height="2080">
+            <Grid Width="3920" Height="3080">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1080" />
+                    <RowDefinition Height="1200" />
                     <RowDefinition Height="500" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
-                    <ColumnDefinition Width="1000" />
+                    <ColumnDefinition Width="1500" />
+                    <ColumnDefinition Width="500" />
                 </Grid.ColumnDefinitions>
 
                 <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="0"/>
@@ -36,17 +38,49 @@
                     </Canvas>
                     </Grid>
 
-                    <ScrollViewer Grid.Row="1" Grid.Column="0">
-                    <TextBlock Name="tmpLog" Text="QQ" Foreground="Black" FontSize="100"/>
+                    <ScrollViewer Name="sysLogViewer" Grid.Row="1" Grid.Column="0">
+                    <TextBlock Name="sysLog" Text="log start" Foreground="Black" FontSize="70" TextWrapping="Wrap"/>
                     </ScrollViewer>
 
-                    
-                    <Viewbox Grid.Row="0" Grid.Column="1">
-                        <Border BorderBrush="Red" BorderThickness="10">
-                        <Canvas Name="canvasHD" Width="512" Height="424" />
-                        </Border>
-                    </Viewbox>
-                    
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Image Name="emoji"/>
+                        <Viewbox >
+
+                            <Border BorderBrush="Red" BorderThickness="10">
+                                <Canvas Name="canvasHD" Width="512" Height="424">
+                                    <Line
+                                    X1="10" Y1="10"
+                                    X2="50" Y2="50"
+                                    Stroke="Black"
+                                    StrokeThickness="4" />
+                                </Canvas>
+                            </Border>
+                        </Viewbox>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="500" />
+                            <RowDefinition Height="500" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Name="info" Text="qq" Foreground="Black" FontSize="50"/>
+                        <TextBlock Grid.Row="1" Name="infoNormal" Text="ooo" Foreground="Black" FontSize="50"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <TextBlock Grid.Row="0" Name="tmp" Text="tmp" Foreground="Black" FontSize="50"/>
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Button Content="Record" Width ="500" Height="500" FontSize="100" Foreground="Black" Click="Record_Button_Click"/>
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Border BorderBrush="Black" BorderThickness="5">
+                        <TextBox Name="tags" Text="unknown" Width ="500" Height="500" FontSize="100" Foreground="Black" />
+                    </Border>
+                    </Grid>
+
                 </Grid>
         </Viewbox>
     </Grid>

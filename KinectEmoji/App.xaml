@@ -6,8 +6,8 @@
 
     <Application.Resources>
         <Style x:Key="EyeStyle" TargetType="Ellipse">
-            <Setter Property="Width" Value="40" />
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="80" />
             <Setter Property="Stroke" Value="LightGreen" />
             <Setter Property="StrokeThickness" Value="4" />
         </Style>            

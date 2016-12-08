@@ -117,7 +117,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Emoji.cs" />
+    <Compile Include="FaceData.cs" />
+    <Compile Include="FaceHD.cs" />
     <Compile Include="ColorBitmapGenerator.cs" />
+    <Compile Include="FaceNormal.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -134,6 +139,14 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Images\happy.jpg" />
+    <Content Include="Images\no.png" />
+    <Content Include="Images\none.png" />
+    <Content Include="Images\question.png" />
+    <Content Include="Images\shock.png" />
+    <Content Include="Images\tired.jpg" />
+    <Content Include="Images\wink.jpg" />
+    <Content Include="Images\yes.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

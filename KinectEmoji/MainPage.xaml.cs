@@ -365,6 +365,12 @@ namespace KinectEmoji
             else if (_faceData.isNodHead())
             {
                 emoji.Source = Emoji.yes;
+            } else if (_faceData.isSwayHead())
+            {
+                emoji.Source = Emoji.question;
+            } else if (_faceData.isLeftEyeClosed() && _faceData.isRightEyeClosed() && _faceData.isMouthOpen())
+            {
+                emoji.Source = Emoji.tired;
             }
             else if (_faceData.isHappy())
             {

@@ -142,7 +142,9 @@
     <Content Include="Images\happy.jpg" />
     <Content Include="Images\no.png" />
     <Content Include="Images\none.png" />
+    <Content Include="Images\question.png" />
     <Content Include="Images\shock.png" />
+    <Content Include="Images\tired.jpg" />
     <Content Include="Images\wink.jpg" />
     <Content Include="Images\yes.jpg" />
   </ItemGroup>

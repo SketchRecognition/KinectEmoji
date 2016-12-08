@@ -69,7 +69,7 @@ namespace KinectEmoji
         
         public bool isWink()
         {
-            return isLeftEyeClosed() ^ isRightEyeClosed();
+            return isLeftEyeClosed() && isRightEyeOpen() || isLeftEyeOpen() && isRightEyeClosed();
         }
 
         public bool isLeftEyeClosed()
@@ -86,17 +86,24 @@ namespace KinectEmoji
             return ((double)total / _normal_list.Count) > threshold;
         }
 
-        public bool isRightEyeClosed()
-        {/*
-            DetectionResult r = _normal_list.Last().eyeRightClosed;
-            if (r == DetectionResult.Yes)
-            {
-                return true;
-            }*/
+        public bool isLeftEyeOpen()
+        {
+            double threshold = 0.4;
+            int total = _normal_list.Where(e => e.eyeLeftClosed == DetectionResult.No).Sum(e => 1);
+            return ((double)total / _normal_list.Count) > threshold;
+        }
 
-            //return false;
+        public bool isRightEyeClosed()
+        {
             double threshold = 0.4;
             int total = _normal_list.Where(e => e.eyeRightClosed == DetectionResult.Yes).Sum(e => 1);
+            return ((double)total / _normal_list.Count) > threshold;
+        }
+
+        public bool isRightEyeOpen()
+        {
+            double threshold = 0.4;
+            int total = _normal_list.Where(e => e.eyeRightClosed == DetectionResult.No).Sum(e => 1);
             return ((double)total / _normal_list.Count) > threshold;
         }
 
@@ -121,6 +128,15 @@ namespace KinectEmoji
 
             double max = _normal_list.Max(e => e.pitch);
             double min = _normal_list.Min(e => e.pitch);
+            return Math.Abs(max - min) > threshold;
+        }
+
+        public bool isSwayHead()
+        {
+            double threshold = 50;
+
+            double max = _normal_list.Max(e => e.roll);
+            double min = _normal_list.Min(e => e.roll);
             return Math.Abs(max - min) > threshold;
         }
 

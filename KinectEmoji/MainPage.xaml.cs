@@ -145,9 +145,10 @@ namespace KinectEmoji
             
         }
 
-        public void Button_Click(object sender, RoutedEventArgs e)
+        public void Record_Button_Click(object sender, RoutedEventArgs e)
         {
             tmp.Text = "click";
+            _faceData.save();
         }
 
         private void write_log(String s)

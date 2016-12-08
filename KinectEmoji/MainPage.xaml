@@ -72,7 +72,7 @@
                     </Grid>
 
                     <Grid Grid.Row="0" Grid.Column="2">
-                        <Button Content="Button" Width ="500" Height="500" FontSize="100" Foreground="Black" Click="Button_Click"/>
+                        <Button Content="Record" Width ="500" Height="500" FontSize="100" Foreground="Black" Click="Record_Button_Click"/>
                     </Grid>
 
                 </Grid>

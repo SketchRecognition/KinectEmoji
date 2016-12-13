@@ -84,8 +84,12 @@ namespace KinectEmoji
 
         public bool isMouthOpen()
         {
-            double threshold = 0.6;
-            return _hd_list.Last().feature_mouthRatio() > threshold;
+            //double threshold = 0.6;
+            //return _hd_list.Last().feature_mouthRatio() > threshold;
+            double threshold_mouth = 0.6;
+            double threshold_frame = 0.6;
+            int total = _hd_list.Where(e => e.feature_mouthRatio() > threshold_mouth).Sum(e => 1);
+            return ((double)total / _hd_list.Count) > threshold_frame;
         }
 
         /* bool isGrinning()

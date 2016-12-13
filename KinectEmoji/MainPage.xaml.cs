@@ -99,6 +99,7 @@ namespace KinectEmoji
             }
 
             //tmp canvas
+            /*
             // Add a Line Element
             var myLine = new Line();
             // myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
@@ -113,7 +114,7 @@ namespace KinectEmoji
             myLine.VerticalAlignment = VerticalAlignment.Center;
             myLine.StrokeThickness = 2;
             canvasHD.Children.Add(myLine);
-
+            */
             // tmp
             write_log("llllllllllooooooooooooooooooonnnnnnnnnnnnnnnnnnnnnggggggggggggggg");
             write_log(FaceHD.MouthUpperlipMidbottom.ToString());
@@ -124,7 +125,7 @@ namespace KinectEmoji
 
             var autoEvent = new AutoResetEvent(false);
 
-            tmp.Text = "tmp";
+            //tmp.Text = "tmp";
             var stateTimer = new Timer(tmp_callback, autoEvent, 1000, 1000);
             //var stateTimer = new Timer(tmp_callback);
             //var timer = new System.Timers.Timer(1000);
@@ -139,7 +140,7 @@ namespace KinectEmoji
         () =>
         {
         // Your UI update code goes here!
-        tmp.Text = String.Format("{0}\n", DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss.fff tt"));
+        //tmp.Text = String.Format("{0}\n", DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss.fff tt"));
             //tmp.Text += _faceData.dump_str();
         }
         );
@@ -149,14 +150,14 @@ namespace KinectEmoji
 
         public void Record_Button_Click(object sender, RoutedEventArgs e)
         {
-            tmp.Text = "click";
+            //tmp.Text = "click";
             save();
         }
 
         public async void save()
         {
             String json_str = _faceData.json(tags.Text);
-            sysLog.Text = json_str;
+            //sysLog.Text = json_str;
             //String json_str = "QQ";
             String folder_name = "KinectFrameData";
             String file_name = String.Format(@"{0}_{1}.txt", tags.Text, DateTime.Now.Ticks);
@@ -185,8 +186,8 @@ namespace KinectEmoji
 
         private void write_log(String s)
         {
-            sysLog.Text += '\n';
-            sysLog.Text += s;
+            //sysLog.Text += '\n';
+            //sysLog.Text += s;
             //sysLogViewer.ScrollToBottom();     
         }
 
@@ -321,17 +322,17 @@ namespace KinectEmoji
                             mywidth = 20.0;
                             myheight = 20.0;
                         }
-                        else if (index == FaceHD.LeftcheekCenter)
+                        else if (index == FaceHD.LeftcheekCenter || index == FaceHD.RightcheekCenter)
                         {
                             mycolor = Colors.Green;
                             mywidth = 20.0;
                             myheight = 20.0;
-                        } else if (index == FaceHD.NoseBottom)
+                        } /*else if (index == FaceHD.NoseBottom)
                         {
                             mycolor = Colors.Black;
                             mywidth = 20.0;
                             myheight = 20.0;
-                        }
+                        }*/
                             /*else if (Face.isLeftEyePoint(index)) {
                             mycolor = Colors.Green;
                             mywidth = 20.0;

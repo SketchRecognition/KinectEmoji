@@ -56,28 +56,28 @@ namespace KinectEmoji
             }*/
             
             //return false;
-            double threshold = 0.4;
+            double threshold = 0.6;
             int total = _normal_list.Where(e => e.eyeLeftClosed == DetectionResult.Yes).Sum(e => 1);
             return ((double)total / _normal_list.Count) > threshold;
         }
 
         public bool isLeftEyeOpen()
         {
-            double threshold = 0.4;
+            double threshold = 0.6;
             int total = _normal_list.Where(e => e.eyeLeftClosed == DetectionResult.No).Sum(e => 1);
             return ((double)total / _normal_list.Count) > threshold;
         }
 
         public bool isRightEyeClosed()
         {
-            double threshold = 0.4;
+            double threshold = 0.6;
             int total = _normal_list.Where(e => e.eyeRightClosed == DetectionResult.Yes).Sum(e => 1);
             return ((double)total / _normal_list.Count) > threshold;
         }
 
         public bool isRightEyeOpen()
         {
-            double threshold = 0.4;
+            double threshold = 0.6;
             int total = _normal_list.Where(e => e.eyeRightClosed == DetectionResult.No).Sum(e => 1);
             return ((double)total / _normal_list.Count) > threshold;
         }

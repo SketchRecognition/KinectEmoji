@@ -7,25 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Unloaded="Page_Unloaded">
 
-    <!--<Border BorderBrush="Black" BorderThickness="10">-->
+    <Border BorderBrush="Black" BorderThickness="10">
     <Grid Background="White">
         <Viewbox>
-            <Grid Width="3000" Height="1580">
+            <Grid Width="3920" Height="3080">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1080" />
+                    <RowDefinition Height="1200" />
                     <RowDefinition Height="500" />
-                        <!--<RowDefinition Height="500" /> -->
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1920" />
-                    <ColumnDefinition Width="1080" />
-                        <!--<ColumnDefinition Width="500" /> -->
+                    <ColumnDefinition Width="1500" />
+                    <ColumnDefinition Width="500" />
                 </Grid.ColumnDefinitions>
 
-                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0"/>
-                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="0"/>
-                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1"/>
-                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="1"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="0"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="1" Grid.Column="0"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="0" Grid.Column="1"/>
+                <Border BorderBrush="Black" BorderThickness="10" Grid.Row="1" Grid.Column="1"/>
 
 
                     <Grid Grid.Row="0" Grid.Column="0">
@@ -33,8 +33,8 @@
                     <Canvas Name="canvas">
                         <Ellipse Name="ellipseEyeLeft" Style="{StaticResource EyeStyle}" />
                         <Ellipse Name="ellipseEyeRight" Style="{StaticResource EyeStyle}" />
-                        <!--<Ellipse Name="ellipseNose" Style="{StaticResource NoseStyle}" />-->
-                        <!--<Ellipse Name="ellipseMouth" Style="{StaticResource MouthStyle}" />-->
+                        <Ellipse Name="ellipseNose" Style="{StaticResource NoseStyle}" />
+                        <Ellipse Name="ellipseMouth" Style="{StaticResource MouthStyle}" />
                     </Canvas>
                     </Grid>
 
@@ -58,37 +58,31 @@
                         </Viewbox>
                     </Grid>
 
-                    <Grid Grid.Row="1" Grid.Column="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1160" />
-                            <ColumnDefinition Width="760" />
-                        </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="500" />
+                            <RowDefinition Height="500" />
+                        </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="0" Name="info" Text="qq" Foreground="Black" FontSize="40"/>
-                        <TextBlock Grid.Column="1" Name="infoNormal" Text="ooo" Foreground="Black" FontSize="40"/>
+                        <TextBlock Grid.Row="0" Name="info" Text="qq" Foreground="Black" FontSize="50"/>
+                        <TextBlock Grid.Row="1" Name="infoNormal" Text="ooo" Foreground="Black" FontSize="50"/>
                     </Grid>
-                    <!--
                     <Grid Grid.Row="2">
                         <TextBlock Grid.Row="0" Name="tmp" Text="tmp" Foreground="Black" FontSize="50"/>
-                    </Grid>-->
-
-                    <Grid Grid.Row="1" Grid.Column="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="540" />
-                            <ColumnDefinition Width="540" />
-                        </Grid.ColumnDefinitions>
-
-                        <Button Grid.Column="1" Content="Record" Width ="540" Height="540" FontSize="70" Background="Gray" Foreground="Black" Click="Record_Button_Click"/>
-                        <Grid Grid.Column="0">
-                            <Border BorderBrush="Black" BorderThickness="1">
-                                <TextBox Name="tags" Text="Specify Emoji Type To Save Here" TextWrapping="Wrap" TextAlignment="Center" Width ="500" Height="500" FontSize="70" Foreground="Black" />
-                            </Border>
-                        </Grid>
                     </Grid>
 
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Button Content="Record" Width ="500" Height="500" FontSize="100" Foreground="Black" Click="Record_Button_Click"/>
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Border BorderBrush="Black" BorderThickness="5">
+                        <TextBox Name="tags" Text="unknown" Width ="500" Height="500" FontSize="100" Foreground="Black" />
+                    </Border>
+                    </Grid>
 
                 </Grid>
         </Viewbox>
     </Grid>
-    <!--</Border>-->
+    </Border>
 </Page>

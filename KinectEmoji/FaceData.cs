@@ -88,6 +88,12 @@ namespace KinectEmoji
             return _hd_list.Last().feature_mouthRatio() > threshold;
         }
 
+        /* bool isGrinning()
+        {
+            double threshold = 0.6;
+            return _hd_list.Last().feature_mouthRatio() > threshold;
+        }*/
+
         public bool isShakeHead()
         {
             double threshold = 60;

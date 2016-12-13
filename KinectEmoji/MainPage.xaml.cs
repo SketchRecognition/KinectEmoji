@@ -415,7 +415,12 @@ namespace KinectEmoji
             else if (_faceData.isMouthOpen())
             {
                 emoji.Source = Emoji.shock;
-            } else
+            }
+            else if (_faceData.isLeftEyeClosed() && _faceData.isRightEyeClosed() && !_faceData.isHappy() && !_faceData.isMouthOpen())
+            {
+                emoji.Source = Emoji.annoyed;
+            }
+            else
             {
                 emoji.Source = null;
             }
